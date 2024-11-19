@@ -10,8 +10,9 @@ export default function useCurrentLocation() {
     setIsPending(true);
 
     Location.requestForegroundPermissionsAsync()
-      .then(({ status }) => {
-        if (status !== "granted") return Promise.reject("NO_PERMISSION");
+      .then((res) => {
+        console.log(res);
+        if (res.status !== "granted") return Promise.reject("NO_PERMISSION");
 
         return Location.watchPositionAsync(
           { accuracy: 6, timeInterval: 5000 },
