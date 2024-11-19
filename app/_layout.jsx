@@ -4,6 +4,7 @@ import { Slot } from "expo-router";
 import React from "react";
 import "../global.css";
 import { SafeAreaView } from "react-native-safe-area-context";
+import NavigationBar from "../components/NavigationBar";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,7 @@ function _layout() {
 	return (
 		<SafeAreaView className="p-4">
 			<Slot />
+			<NavigationBar/>
 		</SafeAreaView>
 	);
 }
