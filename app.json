@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dcolaia.ncfinalproject"
+      "bundleIdentifier": "com.dcolaia.ncfinalproject",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app requires access to your location when open."
+      }
     },
     "android": {
       "adaptiveIcon": {
