@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 export default function useCurrentLocation() {
-  const [location, setLocation] = useState(null);
-  const [isPending, setIsPending] = useState(false);
+  const [location, setLocation] = useState({
+    longitude: -2.243056,
+    latitude: 53.477778,
+  });
+  const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,6 +20,7 @@ export default function useCurrentLocation() {
         return Location.watchPositionAsync(
           { accuracy: 6, timeInterval: 5000 },
           ({ coords }) => {
+            console.log({ coords });
             setLocation(coords);
           }
         );
@@ -24,5 +28,6 @@ export default function useCurrentLocation() {
       .catch((e) => setError(e))
       .finally(() => setIsPending(false));
   }, []);
+
   return { location, isPending, error };
 }
