@@ -31,6 +31,15 @@ export default function _layout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="devtab"
+        options={{
+          title: "Dev",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name={"users"} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
