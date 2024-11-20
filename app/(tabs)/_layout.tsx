@@ -7,18 +7,27 @@ export default function _layout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Map",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <FontAwesome size={28} name={"map"} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="planner"
         options={{
-          title: "Settings",
+          title: "Planner",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
+            <FontAwesome size={28} name={"calendar"} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name={"user"} color={color} />
           ),
         }}
       />
