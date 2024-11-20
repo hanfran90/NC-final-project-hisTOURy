@@ -24,7 +24,7 @@ export default function createMarker() {
       <CustomInput onChange={setDescription} label="Description:"/>
       <Button title="Select from map" onPress={()=>setToggleMap(!toggleMap)}/>
       {toggleMap && <View className="h-1/2">
-      <InteractiveMap coords={[-2.243056, 53.477778]} distance={1000} onSelectPlace={setCoordinates}/>
+      <InteractiveMap coords={[-2.243056, 53.477778]} distance={1000} onSelectPlace={setCoordinates} isInSelectMode/>
       </View>}
       <Text>{coordinates[0]}, {coordinates[1]}</Text>
       <Button title="submit" onPress={handleSubmit} disabled={isPending || !title || !description || !coordinates}/>

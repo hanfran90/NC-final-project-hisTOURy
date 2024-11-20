@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
 		iconImage: "rocket",
 		iconSize: 1.5,
 	},
+	iconSelected: {
+		iconImage: "marker",
+		iconSize: 3,
+	},
 	calloutContainerStyle: {
 		backgroundColor: "white",
 		padding: 10,
@@ -35,9 +39,15 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function InteractiveMap({ coords, distance, onSelectPlace=() => null} ) {
+export default function InteractiveMap({
+	coords,
+	distance,
+	onSelectPlace = () => null,
+	isInSelectMode = false,
+}) {
 	const { data, isPending, error } = useNearbyMarkers({ coords, distance });
 	const [selectedFeature, setSelectedFeature] = useState(null);
+	const [selectedCoordinates, setSelectedCoordinates] = useState(null);
 
 	if (isPending) return <Text>Pending...</Text>;
 
@@ -55,6 +65,23 @@ export default function InteractiveMap({ coords, distance, onSelectPlace=() => n
 		})),
 	};
 
+	const geojsonSelected = selectedCoordinates
+		&& {
+				type: "FeatureCollection",
+				features: [
+					{
+						type: "Feature",
+						geometry: {
+							type: "Point",
+							coordinates: [selectedCoordinates[0], selectedCoordinates[1]],
+						},
+						properties: {
+							title: "selected",
+						},
+					},
+				],
+		  }
+
 	function onPinPress(event) {
 		const feature = event?.features[0];
 		setSelectedFeature((prevSelectedFeature) =>
@@ -64,8 +91,10 @@ export default function InteractiveMap({ coords, distance, onSelectPlace=() => n
 		);
 	}
 
-	function handleLongPress (event) {
-onSelectPlace(event.geometry.coordinates)
+	function handleLongPress(event) {
+		if (!isInSelectMode) return;
+		onSelectPlace(event.geometry.coordinates);
+		setSelectedCoordinates(event.geometry.coordinates);
 	}
 
 	return (
@@ -77,9 +106,18 @@ onSelectPlace(event.geometry.coordinates)
 					puckBearingEnabled
 					// pulsing={{ isEnabled: true, color: "#000000" }}
 				/>
-				<ShapeSource id="points" shape={geojson} onPress={onPinPress}>
+				{!isInSelectMode && <ShapeSource id="points" shape={geojson} onPress={onPinPress}>
 					<SymbolLayer id="point-layer" source="points" style={styles.icon} />
-				</ShapeSource>
+				</ShapeSource>}
+				{geojsonSelected && (
+					<ShapeSource id="selectedCoords" shape={geojsonSelected}>
+						<SymbolLayer
+							id="selected-layer"
+							source="selectedCoords"
+							style={styles.iconSelected}
+						/>
+					</ShapeSource>
+				)}
 
 				{selectedFeature && (
 					<MarkerView coordinate={selectedFeature.geometry.coordinates}>
