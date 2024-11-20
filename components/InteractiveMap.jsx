@@ -26,10 +26,23 @@ const styles = StyleSheet.create({
 });
 
 export default function InteractiveMap({ coords, distance }) {
-  const [geoJson, setGeoJson] = useState(null);
   const { data, isPending, error } = useNearbyMarkers({ coords, distance });
 
   if (isPending) return <Text>Pending...</Text>;
+
+  const geojson = {
+		type: "FeatureCollection",
+		features: data.map((point) => ({
+			type: "Feature",
+			geometry: {
+				type: "Point",
+				coordinates: [point.longitude, point.latitude],
+			},
+			properties: {
+				title: point.title,
+			},
+		})),
+	};
 
   return (
     <View style={styles.container}>
@@ -40,7 +53,7 @@ export default function InteractiveMap({ coords, distance }) {
           puckBearingEnabled
           // pulsing={{ isEnabled: true, color: "#000000" }}
         />
-        <ShapeSource id="points" shape={geoJson}>
+        <ShapeSource id="points" shape={geojson}>
           <SymbolLayer id="point-layer" source="points" style={styles.icon} />
         </ShapeSource>
       </MapView>
