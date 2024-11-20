@@ -4,7 +4,7 @@ import useAddMarker from "../../../hooks/useAddMarker";
 import CustomInput from "../../../components/CustomInput";
 import InteractiveMap from "../../../components/InteractiveMap";
 
-export default function NewSpot() {
+export default function AddSpot() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [coordinates, setCoordinates] = useState([]);

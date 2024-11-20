@@ -11,6 +11,7 @@ export default function _layout() {
           title: "Spot",
         }}
       />
+      <Stack.Screen name="add-spot" options={{ title: "Add Spot" }} />
     </Stack>
   );
 }
