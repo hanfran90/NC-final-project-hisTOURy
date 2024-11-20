@@ -14,7 +14,7 @@ Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
 const styles = StyleSheet.create({
 	container: {
-		height: 300,
+		height: "100%",
 		width: "100%",
 	},
 	map: {
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		iconImage: "rocket",
 		iconSize: 1.5,
 	},
-  calloutContainerStyle: {
+	calloutContainerStyle: {
 		backgroundColor: "white",
 		padding: 10,
 		borderRadius: 5,
@@ -57,23 +57,12 @@ export default function InteractiveMap({ coords, distance }) {
 
 	function onPinPress(event) {
 		const feature = event?.features[0];
-		setSelectedFeature((prevSelectedFeature) => prevSelectedFeature && prevSelectedFeature.id === feature.id
+		setSelectedFeature((prevSelectedFeature) =>
+			prevSelectedFeature && prevSelectedFeature.id === feature.id
 				? null
 				: feature
 		);
 	}
-
-  const CustomCalloutView = ({title, message}) => (
-    <View style={styles.calloutContainerStyle}>
-      <Text style={styles.customCalloutText}>{title}</Text>
-      <Text style={styles.customCalloutText}>{message}</Text>
-      <Button title={"take me here"}></Button>
-    </View>
-  )
-
-  console.log(selectedFeature)
-
-
 
 	return (
 		<View style={styles.container}>
@@ -88,12 +77,25 @@ export default function InteractiveMap({ coords, distance }) {
 					<SymbolLayer id="point-layer" source="points" style={styles.icon} />
 				</ShapeSource>
 
-        {selectedFeature && (
-          <MarkerView coordinate={selectedFeature.geometry.coordinates}>
-            <CustomCalloutView title={"this is"} message={selectedFeature?.properties?.title} />
-          </MarkerView>
-        )}
+				{selectedFeature && (
+					<MarkerView coordinate={selectedFeature.geometry.coordinates}>
+						<MarkerPopUp
+							title={"this is"}
+							message={selectedFeature?.properties?.title}
+						/>
+					</MarkerView>
+				)}
 			</MapView>
+		</View>
+	);
+}
+
+function MarkerPopUp({ title, message }) {
+	return (
+		<View style={styles.calloutContainerStyle}>
+			<Text style={styles.customCalloutText}>{title}</Text>
+			<Text style={styles.customCalloutText}>{message}</Text>
+			<Button title={"take me here"}></Button>
 		</View>
 	);
 }

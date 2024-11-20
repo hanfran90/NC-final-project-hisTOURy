@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import InteractiveMap from "../components/InteractiveMap";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 
@@ -14,8 +14,8 @@ export default function map() {
   console.log({ isPending, longLat, location });
 
   return (
-    <>
+    <View style={{height: 300}}>
       <InteractiveMap coords={longLat} distance={1000} />
-    </>
+    </View>
   );
 }
