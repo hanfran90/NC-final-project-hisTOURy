@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .card {
+    margin: 1rem;
+    border-radius: 1rem;
+  }
+}

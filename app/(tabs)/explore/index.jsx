@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, View } from "react-native";
-import InteractiveMap from "../components/InteractiveMap";
-import useCurrentLocation from "../hooks/useCurrentLocation";
+import useCurrentLocation from "../../../hooks/useCurrentLocation";
+import InteractiveMap from "../../../components/InteractiveMap";
 
-export default function map() {
+export default function Explore() {
   const { location, isPending, error } = useCurrentLocation();
 
   if (isPending) return <Text>Pending...</Text>;
@@ -11,10 +11,9 @@ export default function map() {
   if (!location) return <Text>No Location</Text>;
 
   const longLat = [location.longitude, location.latitude];
-  console.log({ isPending, longLat, location });
 
   return (
-    <View style={{height: 300}}>
+    <View style={{ height: "100%" }}>
       <InteractiveMap coords={longLat} distance={1000} />
     </View>
   );

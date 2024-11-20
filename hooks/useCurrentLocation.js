@@ -11,13 +11,11 @@ export default function useCurrentLocation() {
 
     Location.requestForegroundPermissionsAsync()
       .then((res) => {
-        console.log(res);
         if (res.status !== "granted") return Promise.reject("NO_PERMISSION");
 
         return Location.watchPositionAsync(
           { accuracy: 6, timeInterval: 60000 },
           ({ coords }) => {
-            console.log({ coords });
             setLocation(coords);
           }
         );

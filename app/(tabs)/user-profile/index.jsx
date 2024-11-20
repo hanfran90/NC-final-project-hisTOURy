@@ -1,9 +1,11 @@
+import { Link } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function Tab() {
   return (
     <View style={styles.container}>
       <Text>User Profile</Text>
+      <Link href="/user-profile/new-spot">Add Spot</Link>
     </View>
   );
 }
