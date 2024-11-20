@@ -9,6 +9,8 @@ export default function createMarker() {
   const [description, setDescription] = useState('')
   const [coordinates, setCoordinates] = useState([])
 
+  const [toggleMap, setToggleMap] = useState(false)
+
 
   const {data, isPending, mutate} = useAddMarker()
 
@@ -18,13 +20,13 @@ export default function createMarker() {
 
 	return (
 		<View>
-			<Text>Create a new marker</Text>
-      <View className="h-1/2">
-      <InteractiveMap coords={[-2.243056, 53.477778]} distance={1000} onSelectPlace={setCoordinates}/>
-      </View>
-      <Text>{coordinates[0]}, {coordinates[1]}</Text>
 			<CustomInput onChange={setTitle} label="Title:"/>
       <CustomInput onChange={setDescription} label="Description:"/>
+      <Button title="Select from map" onPress={()=>setToggleMap(!toggleMap)}/>
+      {toggleMap && <View className="h-1/2">
+      <InteractiveMap coords={[-2.243056, 53.477778]} distance={1000} onSelectPlace={setCoordinates}/>
+      </View>}
+      <Text>{coordinates[0]}, {coordinates[1]}</Text>
       <Button title="submit" onPress={handleSubmit} disabled={isPending || !title || !description || !coordinates}/>
       {data && <Text>Posted!</Text>}
 		</View>
