@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function InteractiveMap({ coords, distance }) {
+export default function InteractiveMap({ coords, distance, onSelectPlace=() => null} ) {
 	const { data, isPending, error } = useNearbyMarkers({ coords, distance });
 	const [selectedFeature, setSelectedFeature] = useState(null);
 
@@ -64,9 +64,13 @@ export default function InteractiveMap({ coords, distance }) {
 		);
 	}
 
+	function handleLongPress (event) {
+onSelectPlace(event.geometry.coordinates)
+	}
+
 	return (
 		<View style={styles.container}>
-			<MapView style={styles.map}>
+			<MapView style={styles.map} onLongPress={handleLongPress}>
 				<Camera zoomLevel={15} centerCoordinate={coords} />
 				<LocationPuck
 					puckBearing="heading"
