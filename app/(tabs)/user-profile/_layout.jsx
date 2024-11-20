@@ -5,7 +5,7 @@ export default function _layout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="add-spot" options={{ title: "Add Spot" }} />
+      <Stack.Screen name="planner" options={{ title: "My Planner" }} />
     </Stack>
   );
 }

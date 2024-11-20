@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Tab() {
+export default function Planner() {
   return (
     <View style={styles.container}>
-      <Text>User Planner</Text>
+      <Text>Page: My Planner</Text>
     </View>
   );
 }
