@@ -3,7 +3,7 @@ import * as Location from "expo-location";
 
 export default function useCurrentLocation() {
   const [location, setLocation] = useState(null);
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -15,8 +15,9 @@ export default function useCurrentLocation() {
         if (res.status !== "granted") return Promise.reject("NO_PERMISSION");
 
         return Location.watchPositionAsync(
-          { accuracy: 6, timeInterval: 5000 },
+          { accuracy: 6, timeInterval: 60000 },
           ({ coords }) => {
+            console.log({ coords });
             setLocation(coords);
           }
         );
@@ -24,5 +25,6 @@ export default function useCurrentLocation() {
       .catch((e) => setError(e))
       .finally(() => setIsPending(false));
   }, []);
+
   return { location, isPending, error };
 }

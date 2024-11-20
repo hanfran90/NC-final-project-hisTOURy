@@ -1,3 +1,21 @@
+## Supabase
+
+This project requires `PostGIS` extension. Entire setup and seeding is covered in migration files.
+
+### Initial setup
+
+1. Following env vars are required in `.env.local`
+   ```
+   EXPO_PUBLIC_SUPABASE_URL=https://[PROJECT].supabase.co
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=[ANON_KEY]
+   ```
+2. Run `npx supabase link` to link cloud account with CLI
+3. Run `npx supabase db push` to apply all migrations
+
+### Supabase Cloud Reset
+
+**DANGER:** Run `npx supabase db reset --linked`
+
 ## Issues
 
 ### iOS: Mapbox not working
