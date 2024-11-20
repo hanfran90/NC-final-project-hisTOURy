@@ -1,15 +1,21 @@
-import { View, Text, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
-import MapboxExample from "../../components/MapboxExample";
+import InteractiveMap from "../../components/InteractiveMap";
 
 export default function Tab() {
-  const { location, error } = useCurrentLocation();
+  const { location, isPending, error } = useCurrentLocation();
+
+  if (isPending) return <Text>Pending...</Text>;
+  if (error) return <Text>{JSON.stringify(error)}</Text>;
+  if (!location) return <Text>No Location</Text>;
+
+  const longLat = [location.longitude, location.latitude];
 
   return (
-    <View>
-      <Text>{JSON.stringify(location || error)}</Text>
-      <Text>Hello World</Text>
-      <MapboxExample />
-    </View>
+    <>
+      <View style={{ height: "100%" }}>
+        <InteractiveMap coords={longLat} distance={1000} />
+      </View>
+    </>
   );
 }
