@@ -7,6 +7,7 @@ export default function NavigationBar() {
       <Link href="/home">Map</Link>
       <Link href="/profile">Profile</Link>
       <Link href="/planner">Planner</Link>
+      <Link href="/map">Interactive Map</Link>
     </View>
   );
 }
