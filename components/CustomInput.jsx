@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { TextInput } from "react-native";
+import { Text, TextInput, View } from "react-native";
 
-export default function CustomInput({ onChange }) {
+export default function CustomInput({ onChange, label }) {
 	const [value, setValue] = useState('');
 
 	return (
+    <View>
+      <Text>{label}</Text>
 		<TextInput
 			className="p-2 border"
 			onChangeText={(text) => {
@@ -13,5 +15,6 @@ export default function CustomInput({ onChange }) {
 			}}
 			value={value}
 		/>
+    </View>
 	);
 }

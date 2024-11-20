@@ -9,6 +9,7 @@ export default function createMarker() {
   const [description, setDescription] = useState('')
   const [coordinates, setCoordinates] = useState([])
 
+
   const {data, isPending, mutate} = useAddMarker()
 
   function handleSubmit(){
@@ -22,10 +23,10 @@ export default function createMarker() {
       <InteractiveMap coords={[-2.243056, 53.477778]} distance={1000} onSelectPlace={setCoordinates}/>
       </View>
       <Text>{coordinates[0]}, {coordinates[1]}</Text>
-      <Text>{JSON.stringify(data)}</Text>
-			<CustomInput onChange={setTitle}/>
-      <CustomInput onChange={setDescription}/>
+			<CustomInput onChange={setTitle} label="Title:"/>
+      <CustomInput onChange={setDescription} label="Description:"/>
       <Button title="submit" onPress={handleSubmit} disabled={isPending || !title || !description || !coordinates}/>
+      {data && <Text>Posted!</Text>}
 		</View>
 	);
 }
