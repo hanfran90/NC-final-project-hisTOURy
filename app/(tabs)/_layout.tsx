@@ -1,43 +1,46 @@
+import { FontAwesome6 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import { Screen } from "expo-router/build/views/Screen";
 
 export default function _layout() {
+  const userExists = true;
+
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: "Map",
+          title: "Tab One",
+          href: null,
+        }}
+      />
+      <Screen
+        name="feed"
+        options={{
+          title: "Feed",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 size={28} name={"bars-staggered"} color={color} />
+          ),
+        }}
+      />
+      <Screen
+        name="explore"
+        options={{
+          title: "Explore",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name={"map"} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="planner"
+      <Screen
+        name="user-profile"
         options={{
-          title: "Planner",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name={"calendar"} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
+          title: "User",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name={"user"} color={color} />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="devtab"
-        options={{
-          title: "Dev",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name={"users"} color={color} />
-          ),
+          href: userExists ? "/user-profile" : "/login",
         }}
       />
     </Tabs>

@@ -1,8 +1,10 @@
+import React from "react";
 import { Text, View } from "react-native";
-import useCurrentLocation from "../../hooks/useCurrentLocation";
-import InteractiveMap from "../../components/InteractiveMap";
+import useCurrentLocation from "../../../hooks/useCurrentLocation";
+import InteractiveMap from "../../../components/InteractiveMap";
+import FloatingAction from "../../../components/FloatingAction";
 
-export default function Tab() {
+export default function Explore() {
   const { location, isPending, error } = useCurrentLocation();
 
   if (isPending) return <Text>Pending...</Text>;
@@ -16,6 +18,9 @@ export default function Tab() {
       <View style={{ height: "100%" }}>
         <InteractiveMap coords={longLat} distance={1000} />
       </View>
+      <FloatingAction href="/explore/add-spot">
+        <Text className="text-center text-2xl font-bold text-white">+</Text>
+      </FloatingAction>
     </>
   );
 }

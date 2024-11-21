@@ -1,6 +1,7 @@
 import { useReactQueryDevTools } from "@dev-plugins/react-query/build/useReactQueryDevTools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
+import { Screen } from "expo-router/build/views/Screen";
 import React from "react";
 import "../global.css";
 
@@ -11,7 +12,26 @@ function _layout() {
   return (
     <QueryClientProvider client={queryClient}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Screen
+          name="(tabs)"
+          options={{
+            headerTitle: "Columbus",
+            // headerRight: () => <Link href={"/dev"}>DEV</Link>,
+                    headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
+          }}
+        />
+        <Screen
+          name="login"
+          options={{
+            presentation: "modal",
+          }}
+        />
+        <Screen
+          name="planner"
+          options={{
+            presentation: "modal",
+          }}
+        />
       </Stack>
     </QueryClientProvider>
   );
