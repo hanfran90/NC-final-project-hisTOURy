@@ -8,11 +8,12 @@ export default function Login() {
     password: "",
   });
 
-  const { user, signUp, signIn, signOut } = useContext(AuthContext);
+  const { user, error, signUp, signIn, signOut } = useContext(AuthContext);
 
   return (
     <View>
       <Text>{JSON.stringify(user)}</Text>
+      <Text>{JSON.stringify(error)}</Text>
       <Text>Log In / Sign Up with Email</Text>
       <TextInput
         label="Email"

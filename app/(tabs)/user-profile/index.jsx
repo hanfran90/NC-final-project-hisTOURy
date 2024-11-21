@@ -9,7 +9,7 @@ export default function Tab() {
 
   return (
     <View style={styles.container}>
-      <Text>User Profile: {user.email}</Text>
+      <Text>User Profile: {user?.email}</Text>
       <Link href="/user-profile/my-spots">My Spots</Link>
       <Button title="Logout" onPress={signOut} />
     </View>

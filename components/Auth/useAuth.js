@@ -8,14 +8,20 @@ export default function useAuth() {
   const [isPending, setIsPending] = useState(true);
   const router = useRouter();
 
-  const fnWrapper = (callback = async () => null) => {
+  const fnWrapper = (callback = async () => null, redirectTo = null) => {
     setIsPending(true);
     setError(null);
 
     return callback()
-      .then(() => supabase.auth.getUser())
+      .then(({ error }) => {
+        if (error) {
+          return Promise.reject(error);
+        }
+        return supabase.auth.getUser();
+      })
       .then((res) => setUser(res.data.user))
-      .catch((e) => setError(e))
+      .then(() => router.replace(redirectTo))
+      .catch((e) => setError(e.__isAuthError ? e.code : e))
       .finally(() => setIsPending(false));
   };
 
@@ -24,27 +30,26 @@ export default function useAuth() {
   }, []);
 
   const signUp = ({ email, password }) =>
-    fnWrapper(() =>
-      supabase.auth
-        .signUp({
+    fnWrapper(
+      () =>
+        supabase.auth.signUp({
           email,
           password,
-        })
-        .then(() => router.replace("/user-profile"))
+        }),
+      "/user-profile"
     );
 
   const signIn = ({ email, password }) =>
-    fnWrapper(() =>
-      supabase.auth
-        .signInWithPassword({
+    fnWrapper(
+      () =>
+        supabase.auth.signInWithPassword({
           email,
           password,
-        })
-        .then(() => router.replace("/user-profile"))
+        }),
+      "/user-profile"
     );
 
-  const signOut = () =>
-    fnWrapper(() => supabase.auth.signOut().then(() => router.replace("/")));
+  const signOut = () => fnWrapper(() => supabase.auth.signOut(), "/");
 
   return {
     user,
