@@ -16,11 +16,18 @@ function _layout() {
           name="(tabs)"
           options={{
             headerTitle: "Columbus",
-            headerRight: () => <Link href={"/dev"}>DEV</Link>,
+            // headerRight: () => <Link href={"/dev"}>DEV</Link>,
+                    headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
           }}
         />
         <Screen
           name="login"
+          options={{
+            presentation: "modal",
+          }}
+        />
+        <Screen
+          name="planner"
           options={{
             presentation: "modal",
           }}
