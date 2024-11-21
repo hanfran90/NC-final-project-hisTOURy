@@ -2,48 +2,41 @@ import { useReactQueryDevTools } from "@dev-plugins/react-query/build/useReactQu
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Link, Stack } from "expo-router";
 import { Screen } from "expo-router/build/views/Screen";
-import React, { useEffect } from "react";
+import React from "react";
 import "../global.css";
-import { AppState } from "react-native";
-import { supabase } from "../utils/supabaseClient";
+import AuthProvider from "../components/Auth/AuthProvider";
 
 const queryClient = new QueryClient();
 
 function _layout() {
-  AppState.addEventListener("change", (state) => {
-    if (state === "active") {
-      supabase.auth.startAutoRefresh();
-    } else {
-      supabase.auth.stopAutoRefresh();
-    }
-  });
-
   useReactQueryDevTools(queryClient);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Screen
-          name="(tabs)"
-          options={{
-            headerTitle: "Columbus",
-            headerLeft: () => <Link href={"/dev"}>DEV</Link>,
-            headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
-          }}
-        />
-        <Screen
-          name="login"
-          options={{
-            presentation: "modal",
-          }}
-        />
-        <Screen
-          name="planner"
-          options={{
-            presentation: "modal",
-          }}
-        />
-      </Stack>
+      <AuthProvider>
+        <Stack>
+          <Screen
+            name="(tabs)"
+            options={{
+              headerTitle: "Columbus",
+              headerLeft: () => <Link href={"/dev"}>DEV</Link>,
+              headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
+            }}
+          />
+          <Screen
+            name="login"
+            options={{
+              presentation: "modal",
+            }}
+          />
+          <Screen
+            name="planner"
+            options={{
+              presentation: "modal",
+            }}
+          />
+        </Stack>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

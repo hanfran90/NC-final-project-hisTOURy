@@ -1,10 +1,10 @@
-import { FlatList, Text, View } from "react-native";
-import useAuth from "../hooks/useAuth";
+import { useContext } from "react";
+import { FlatList, Text } from "react-native";
+import { AuthContext } from "../components/Auth/AuthContext";
 import DevFeatureWrapper from "./DevFeatureWrapper";
-import { useEffect } from "react";
 
 export default function DevAuthenticatedUser() {
-  const { user, error, isPending } = useAuth();
+  const { user, error, isPending } = useContext(AuthContext);
 
   return (
     <DevFeatureWrapper title="Authenticated User">

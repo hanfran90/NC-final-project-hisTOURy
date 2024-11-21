@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
-import useAuth from "../hooks/useAuth";
+import { AuthContext } from "../components/Auth/AuthContext";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -8,7 +8,7 @@ export default function Login() {
     password: "",
   });
 
-  const { user, signUp, signIn, signOut } = useAuth();
+  const { user, signUp, signIn, signOut } = useContext(AuthContext);
 
   return (
     <View>

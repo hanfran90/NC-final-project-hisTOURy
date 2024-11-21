@@ -1,15 +1,13 @@
-import { Link, Redirect, useRouter } from "expo-router";
-import { View, Text, StyleSheet, Button } from "react-native";
-import useAuth from "../../../hooks/useAuth";
-import { useEffect } from "react";
+import { Link, Redirect } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
+
+import { useContext } from "react";
+import { AuthContext } from "../../../components/Auth/AuthContext";
 
 export default function Tab() {
-  const { user, signOut } = useAuth();
-  const router = useRouter();
+  const { user, signOut } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!user) router.replace("/login");
-  }, [user]);
+  if (!user) return <Redirect href="/login" />;
 
   return (
     <View style={styles.container}>
