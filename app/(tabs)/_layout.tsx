@@ -4,7 +4,7 @@ import { Tabs } from "expo-router";
 import { Screen } from "expo-router/build/views/Screen";
 
 export default function _layout() {
-  const userExists = false;
+  const userExists = true;
 
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
