@@ -62,6 +62,7 @@ export default function InteractiveMap({
       },
       properties: {
         title: point.title,
+        marker_id: point.marker_id,
       },
     })),
   };
@@ -123,10 +124,7 @@ export default function InteractiveMap({
 
         {selectedFeature && (
           <MarkerView coordinate={selectedFeature.geometry.coordinates}>
-            <MarkerPopUp
-              title={"this is"}
-              message={selectedFeature?.properties?.title}
-            />
+            <MarkerPopUp item={selectedFeature?.properties} />
           </MarkerView>
         )}
       </MapView>
@@ -134,12 +132,11 @@ export default function InteractiveMap({
   );
 }
 
-function MarkerPopUp({ title, message }) {
+function MarkerPopUp({ item: { title, marker_id } }) {
   return (
     <View style={styles.calloutContainerStyle}>
       <Text style={styles.customCalloutText}>{title}</Text>
-      <Text style={styles.customCalloutText}>{message}</Text>
-      <Link href={"(tabs)/explore/some-spot"}>take me here</Link>
+      <Link href={`(tabs)/explore/${marker_id}`}>take me here</Link>
     </View>
   );
 }
