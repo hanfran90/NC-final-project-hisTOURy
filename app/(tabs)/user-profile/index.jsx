@@ -5,7 +5,7 @@ export default function Tab() {
   return (
     <View style={styles.container}>
       <Text>User Profile</Text>
-      <Link href="/user-profile/planner">My Planner</Link>
+      <Link href="/user-profile/my-spots">My Spots</Link>
     </View>
   );
 }

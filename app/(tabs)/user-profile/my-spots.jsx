@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Planner() {
+export default function MySpots() {
   return (
     <View style={styles.container}>
-      <Text>Page: My Planner</Text>
+      <Text>Page: My Spots</Text>
     </View>
   );
 }
