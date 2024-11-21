@@ -19,6 +19,12 @@ function _layout() {
             headerRight: () => <Link href={"/dev"}>DEV</Link>,
           }}
         />
+        <Screen
+          name="login"
+          options={{
+            presentation: "modal",
+          }}
+        />
       </Stack>
     </QueryClientProvider>
   );
