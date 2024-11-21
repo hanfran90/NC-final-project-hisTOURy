@@ -27,7 +27,7 @@ function _layout() {
           name="(tabs)"
           options={{
             headerTitle: "Columbus",
-            // headerRight: () => <Link href={"/dev"}>DEV</Link>,
+            headerLeft: () => <Link href={"/dev"}>DEV</Link>,
             headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
           }}
         />

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Button, Text, TextInput, View } from "react-native";
-import { supabase } from "../utils/supabaseClient";
-import useUserSession from "../hooks/useUserSession";
+import { Button, Text, TextInput, View } from "react-native";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -9,23 +8,11 @@ export default function Login() {
     password: "",
   });
 
-  const { signUpUser } = useUserSession();
-
-  async function signInWithEmail() {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: form.email,
-      password: form.password,
-    });
-
-    if (error) {
-      Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Success", "Signed in successfully!");
-    }
-  }
+  const { user, signUp, signIn, signOut } = useAuth();
 
   return (
     <View>
+      <Text>{JSON.stringify(user)}</Text>
       <Text>Log In / Sign Up with Email</Text>
       <TextInput
         label="Email"
@@ -48,8 +35,9 @@ export default function Login() {
         value={form.password}
         autoCapitalize="none"
       />
-      {/* <Button title="Sign In" onPress={() => signUpUser(form)} /> */}
-      <Button title="Create an Account" onPress={() => signUpUser(form)} />
+      <Button title="Sign In" onPress={() => signIn(form)} />
+      <Button title="Sign Up" onPress={() => signUp(form)} />
+      <Button title="Sign Out" onPress={signOut} />
     </View>
   );
 }
