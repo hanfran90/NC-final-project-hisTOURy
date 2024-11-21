@@ -2,13 +2,24 @@ import { useReactQueryDevTools } from "@dev-plugins/react-query/build/useReactQu
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Link, Stack } from "expo-router";
 import { Screen } from "expo-router/build/views/Screen";
-import React from "react";
+import React, { useEffect } from "react";
 import "../global.css";
+import { AppState } from "react-native";
+import { supabase } from "../utils/supabaseClient";
 
 const queryClient = new QueryClient();
 
 function _layout() {
+  AppState.addEventListener("change", (state) => {
+    if (state === "active") {
+      supabase.auth.startAutoRefresh();
+    } else {
+      supabase.auth.stopAutoRefresh();
+    }
+  });
+
   useReactQueryDevTools(queryClient);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Stack>
@@ -17,7 +28,7 @@ function _layout() {
           options={{
             headerTitle: "Columbus",
             // headerRight: () => <Link href={"/dev"}>DEV</Link>,
-                    headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
+            headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
           }}
         />
         <Screen
