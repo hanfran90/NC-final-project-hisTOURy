@@ -1,12 +1,14 @@
 import { useLocalSearchParams } from "expo-router";
-import { Text, View, ActivityIndicator, Button } from "react-native";
+import { Button, Text, View } from "react-native";
 import SingleMarkerCard from "../../../components/SingleMarkerCard";
 import useMarkerInfo from "../../../hooks/useMarkerInfo";
 import { supabase } from "../../../utils/supabaseClient";
+import { useContext } from "react";
+import { AuthContext } from "../../../components/Auth/AuthContext";
 
 export default function SpotDetails() {
   const { spotId } = useLocalSearchParams();
-
+  const { user } = useContext(AuthContext);
   const { data, isPending, error } = useMarkerInfo(spotId);
 
   if (isPending) {
@@ -35,9 +37,7 @@ export default function SpotDetails() {
   function handleOnPress() {
     return supabase
       .from("users_markers")
-      .insert([
-        { user_id: "9c6cb5c1-0f40-43e8-8936-ac63d8832990", marker_id: spotId },
-      ])
+      .insert([{ user_id: user.id, marker_id: spotId }])
       .select()
       .then((response) => {
         console.log(response);
