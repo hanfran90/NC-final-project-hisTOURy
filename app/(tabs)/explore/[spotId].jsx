@@ -5,11 +5,18 @@ import useMarkerInfo from "../../../hooks/useMarkerInfo";
 import { supabase } from "../../../utils/supabaseClient";
 import { useContext } from "react";
 import { AuthContext } from "../../../components/Auth/AuthContext";
+import VoteCard from "../../../components/VoteCard";
+import useUserVote from "../../../hooks/useUserVote";
 
 export default function SpotDetails() {
   const { spotId } = useLocalSearchParams();
   const { user } = useContext(AuthContext);
   const { data, isPending, error } = useMarkerInfo(spotId);
+  const {
+    mutate,
+    isPending: isPendingMutation,
+    error: mutationError,
+  } = useUserVote();
 
   if (isPending) {
     return (
@@ -51,6 +58,12 @@ export default function SpotDetails() {
       {/* <Text>Page: Spot Details - {spotId}</Text> */}
       <SingleMarkerCard markerData={data} />
       <Button title="Add to planner" onPress={handleOnPress} />
+      <VoteCard
+        castVote={(value) => {
+          mutate({ value, user_id: user.id, marker_id: spotId });
+        }}
+        disabled={!Boolean(user)}
+      />
     </View>
   );
 }
