@@ -54,12 +54,11 @@ export default function InteractiveMap({
   const mapRef = useRef(null); 
 	const [routeGeoJSON, setRouteGeoJSON] = useState(null);
 
-
   if (isPending) return <Text>Pending...</Text>;
 
   const geojson = {
     type: "FeatureCollection",
-    features: data.map((point) => ({
+    features: data?.map((point) => ({
       type: "Feature",
       geometry: {
         type: "Point",
