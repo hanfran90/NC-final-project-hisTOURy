@@ -4,6 +4,7 @@ CREATE TABLE "markers" (
   "title" varchar NOT NULL,
   "description" varchar(255),
   "address" varchar,
+  "image" varchar,
   "location" gis.geography(POINT) NOT NULL,
   "user_id" uuid
 );
