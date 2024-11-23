@@ -11,6 +11,7 @@ This project requires `PostGIS` extension. Entire setup and seeding is covered i
    ```
 2. Run `npx supabase link` to link cloud account with CLI
 3. Run `npx supabase db push` to apply all migrations
+4. Run `npx supabase test db --linked` to prove schema
 
 ### Supabase Cloud Reset
 
