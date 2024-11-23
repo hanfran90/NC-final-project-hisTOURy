@@ -11,18 +11,18 @@ INSERT INTO markers (marker_id, title, longitude, latitude)
             (102, 'MOCK2', -2.2490792, 53.4851459)
 ;
 
-INSERT INTO votes (profile_id, marker_id)
+INSERT INTO votes (user_id, marker_id)
 VALUES  ('00000000-0000-0000-0000-000000000000', 101),
         ('00000000-0000-0000-0000-000000000000', 102);
 
 SELECT is(
-    (SELECT count(*) FROM votes WHERE profile_id = '00000000-0000-0000-0000-000000000000'),
+    (SELECT count(*) FROM votes WHERE user_id = '00000000-0000-0000-0000-000000000000'),
     2::bigint,
-    'should have two records with valid profile_id after insertion'
+    'should have two records with valid user_id after insertion'
 );
 
--- TEST 002: should fail on attempt to insert duplicated maker_id and profile_id combination
-PREPARE status_insert AS INSERT INTO votes (profile_id, marker_id) VALUES ('00000000-0000-0000-0000-000000000000', 101);
+-- TEST 002: should fail on attempt to insert duplicated maker_id and user_id combination
+PREPARE status_insert AS INSERT INTO votes (user_id, marker_id) VALUES ('00000000-0000-0000-0000-000000000000', 101);
 
 SELECT throws_ok('status_insert', '23505');
 
@@ -39,7 +39,7 @@ SELECT is(
 DELETE FROM auth.users WHERE id = '00000000-0000-0000-0000-000000000000';
 
 SELECT is(
-    (SELECT count(*) FROM votes WHERE profile_id = '00000000-0000-0000-0000-000000000000'),
+    (SELECT count(*) FROM votes WHERE user_id = '00000000-0000-0000-0000-000000000000'),
     0::bigint,
     'should cascade on profile deletion'
 );

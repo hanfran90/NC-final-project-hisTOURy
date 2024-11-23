@@ -12,11 +12,11 @@ INSERT INTO markers (marker_id, title, longitude, latitude)
 ;
 
 INSERT INTO planners_markers (planner_id, marker_id)
-    VALUES  ((SELECT planner_id FROM planners WHERE profile_id = '00000000-0000-0000-0000-000000000000' AND title = 'default'), 101),
-            ((SELECT planner_id FROM planners WHERE profile_id = '00000000-0000-0000-0000-000000000000' AND title = 'default'), 102);
+    VALUES  ((SELECT planner_id FROM planners WHERE user_id = '00000000-0000-0000-0000-000000000000' AND title = 'default'), 101),
+            ((SELECT planner_id FROM planners WHERE user_id = '00000000-0000-0000-0000-000000000000' AND title = 'default'), 102);
 
 SELECT is(
-    (SELECT count(*) FROM planners_markers WHERE planner_id = (SELECT planner_id FROM planners WHERE profile_id = '00000000-0000-0000-0000-000000000000' AND title = 'default')),
+    (SELECT count(*) FROM planners_markers WHERE planner_id = (SELECT planner_id FROM planners WHERE user_id = '00000000-0000-0000-0000-000000000000' AND title = 'default')),
     2::bigint,
     'should have two records with valid planner_id after insertion'
 );

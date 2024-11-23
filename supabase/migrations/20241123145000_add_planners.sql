@@ -2,9 +2,9 @@
 DROP TABLE IF EXISTS planners CASCADE;
 CREATE TABLE planners (
   planner_id serial NOT NULL PRIMARY KEY,
-  profile_id UUID NOT NULL REFERENCES profiles ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES profiles ON DELETE CASCADE,
   title varchar DEFAULT 'default',
-  UNIQUE (profile_id, title)
+  UNIQUE (user_id, title)
 );
 
 -- HANDLE NEW PROFILE
@@ -13,8 +13,8 @@ CREATE OR REPLACE FUNCTION public.handle_new_profile()
   LANGUAGE plpgsql
   AS $$
   BEGIN
-    INSERT INTO public.planners (profile_id)
-      VALUES (new.profile_id);
+    INSERT INTO public.planners (user_id)
+      VALUES (new.user_id);
     RETURN new;
   END;
   $$;
