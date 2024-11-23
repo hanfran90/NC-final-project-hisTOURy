@@ -101,5 +101,32 @@ BEGIN
     ;
 END$$;
 
+-- SEED VOTES (random)
+DO $$
+DECLARE
+    uid UUID;
+    arr INT[];
+    mid INT;
+    val INT;
+BEGIN
+    FOR i IN 1..10 LOOP
+        uid := (SELECT id FROM auth.users ORDER BY random() LIMIT 1);
+        
+        SELECT array_agg(marker_id) INTO arr FROM markers ORDER BY random() LIMIT 5;
+
+        FOREACH mid IN ARRAY arr LOOP
+        val := (SELECT random() * 5)::int;
+
+        IF val = 0 THEN
+            val := 1;
+        END IF;
+
+        INSERT INTO votes (user_id, marker_id, value)
+            VALUES (uid, mid, val)
+        ON CONFLICT (user_id, marker_id) DO NOTHING;
+        END LOOP;
+    END LOOP;
+END $$;
+
 -- discard function
 DROP FUNCTION create_user;
