@@ -1,0 +1,9 @@
+-- CREATE TABLE
+DROP TABLE IF EXISTS votes CASCADE;
+CREATE TABLE votes (
+  vote_id SERIAL NOT NULL PRIMARY KEY,
+  profile_id UUID NOT NULL REFERENCES profiles ON DELETE CASCADE,
+  marker_id SERIAL NOT NULL REFERENCES markers ON DELETE CASCADE,
+  value int,
+  UNIQUE (profile_id, marker_id)
+);
