@@ -5,7 +5,7 @@ import useUserPlanner from "./useUserPlanner";
 export default function useUserAddToPlanner(marker_id) {
   const { data: planners, refetch } = useUserPlanner();
 
-  const defaultPlannerId = planners[0]?.planner_id;
+  const defaultPlannerId = planners && planners[0]?.planner_id;
   const canAddToPlanner =
     defaultPlannerId &&
     marker_id &&

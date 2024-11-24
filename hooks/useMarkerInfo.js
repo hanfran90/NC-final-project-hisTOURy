@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabaseClient";
 
 export default function useMarkerInfo(markerId) {
-  const { data, isPending, error } = useQuery({
-    queryKey: ["single-marker", markerId],
+  return useQuery({
+    queryKey: ["marker", markerId],
     queryFn: () =>
       supabase
         .from("markers")
@@ -13,6 +13,4 @@ export default function useMarkerInfo(markerId) {
           return response.data[0];
         }),
   });
-
-  return { data, isPending, error };
 }
