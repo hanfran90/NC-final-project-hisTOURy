@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 
 export default function useAuth() {
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const router = useRouter();
@@ -19,9 +20,15 @@ export default function useAuth() {
         }
         return supabase.auth.getUser();
       })
-      .then((res) => setUser(res.data.user))
+      .then((res) => {
+        setUser(res.data.user);
+        setUserId(res.data.user?.id);
+      })
       .then(() => router.replace(redirectTo))
-      .catch((e) => setError(e.__isAuthError ? e.code : e))
+      .catch((e) => {
+        console.log(JSON.stringify(e));
+        setError(e.__isAuthError ? e.code : e);
+      })
       .finally(() => setIsPending(false));
   };
 
@@ -53,6 +60,7 @@ export default function useAuth() {
 
   return {
     user,
+    userId,
     signUp,
     signIn,
     signOut,
