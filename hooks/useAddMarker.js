@@ -10,7 +10,8 @@ function useAddMarker() {
         .insert({
           title,
           description,
-          location: `POINT(${coordinates[0]} ${coordinates[1]})`,
+          longitude: coordinates[0],
+          latitude: coordinates[1],
         })
         .select()
         .then((response) => {
