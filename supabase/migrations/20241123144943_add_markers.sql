@@ -9,7 +9,8 @@ CREATE TABLE markers (
     location gis.geography(POINT) NOT NULL,
     longitude FLOAT NOT NULL,
     latitude FLOAT NOT NULL,
-    user_id UUID REFERENCES profiles ON DELETE SET NULL
+    user_id UUID REFERENCES profiles ON DELETE SET NULL,
+    votes INT NOT NULL DEFAULT 0
 );
 
 CREATE INDEX geo_marker ON markers USING GIST (location);
