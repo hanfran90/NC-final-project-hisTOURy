@@ -6,32 +6,45 @@ user_id uuid;
 BEGIN
 user_id := gen_random_uuid();
 
-INSERT INTO
-auth.users (
-    instance_id,
-    id,
-    aud,
-    role,
-    email,
-    encrypted_password,
-    raw_app_meta_data,
-    email_confirmed_at,
-    created_at,
-    updated_at
+INSERT INTO auth.users (
+  instance_id,
+  id,
+  aud,
+  role,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  recovery_sent_at,
+  last_sign_in_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  created_at,
+  updated_at,
+  confirmation_token,
+  email_change,
+  email_change_token_new,
+  recovery_token
 )
 VALUES
-    (
-    gen_random_uuid(),
-    user_id,
-    'authenticated',
-    'authenticated',
-    email,
-    extensions.crypt('123456', extensions.gen_salt ('bf')),
-    '{"provider":"email","providers":["email"]}',
-    NOW(),
-    NOW(),
-    NOW()
-    );
+  (
+  '00000000-0000-0000-0000-000000000000',
+  user_id,
+  'authenticated',
+  'authenticated',
+  email,
+  extensions.crypt('123456', extensions.gen_salt('bf')),
+  NOW(),
+  NOW(),
+  NOW(),
+  '{"provider":"email","providers":["email"]}',
+  '{}',
+  NOW(),
+  NOW(),
+  '',
+  '',
+  '',
+  ''
+  );
 
 INSERT INTO
     auth.identities (
