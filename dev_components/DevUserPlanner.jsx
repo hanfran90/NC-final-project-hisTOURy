@@ -1,12 +1,12 @@
 import { FlatList, Text } from "react-native";
-import useUserProfile from "../hooks/useUserProfile";
+import useUserPlanner from "../hooks/useUserPlanner";
 import DevFeatureWrapper from "./DevFeatureWrapper";
 
-export default function DevUserProfile() {
-  const { data, isPending, error } = useUserProfile();
+export default function DevUserPlanner() {
+  const { data, isPending, error } = useUserPlanner();
 
   return (
-    <DevFeatureWrapper title="HOOK: User Profile">
+    <DevFeatureWrapper title="HOOK: User Planner">
       {isPending && <Text>Pending...</Text>}
       {error && <Text>{JSON.stringify(error)}</Text>}
       {data ? (

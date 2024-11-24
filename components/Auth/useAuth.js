@@ -25,10 +25,7 @@ export default function useAuth() {
         setUserId(res.data.user?.id);
       })
       .then(() => router.replace(redirectTo))
-      .catch((e) => {
-        console.log(JSON.stringify(e));
-        setError(e.__isAuthError ? e.code : e);
-      })
+      .catch((e) => setError(e.__isAuthError ? e.code : e))
       .finally(() => setIsPending(false));
   };
 
