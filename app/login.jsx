@@ -12,12 +12,6 @@ export default function Login() {
 
   const { signIn, signUp, error } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   if (error === "User already exists") {
-  //     Alert.alert("Error", "User already exists!");
-  //   }
-  // }, [error]);
-
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 dark:bg-gray-800 p-6">
       <Text className="text-2xl font-extrabold text-gray-900 dark:text-white mb-6">
