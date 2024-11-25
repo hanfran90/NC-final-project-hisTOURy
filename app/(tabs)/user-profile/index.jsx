@@ -25,7 +25,7 @@ export default function Tab() {
         >
           <Text className="text-white font-semibold text-lg">My Markers</Text>
         </Link>
-        <CustomButton title="Logout" onPress={signOut} color="tertiary" />
+        <CustomButton title="Logout" onPress={signOut} color="tertiary"/>
       </View>
     </View>
   );
