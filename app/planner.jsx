@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
-import { supabase } from "../utils/supabaseClient";
+import React, { useContext } from "react";
+import { FlatList, Text, View } from "react-native";
+import { AuthContext } from "../components/Auth/AuthContext";
+import useUserPlanner from "../hooks/useUserPlanner";
 
 export default function planner() {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    supabase
-      .from("users_markers")
-      .select()
-      .then((response) => {
-        setData(response.data);
-      });
-  }, []);
+  const { user } = useContext(AuthContext);
+  const { data: planner } = useUserPlanner(user.id);
+
+  console.log({ user, planner });
+
   return (
     <View>
       <Text>planner Page</Text>
-      <Text>{JSON.stringify(data)}</Text>
+      <FlatList
+        data={planner}
+        renderItem={({ item: { markers }, index }) => (
+          <Text>
+            {index}: {JSON.stringify(markers)}
+          </Text>
+        )}
+      />
     </View>
   );
 }
