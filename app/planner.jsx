@@ -4,19 +4,18 @@ import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 
 export default function planner() {
-  const { user } = useContext(AuthContext);
-  const { data: planner } = useUserPlanner(user.id);
+  const { data: planner } = useUserPlanner();
 
-  console.log({ user, planner });
+  console.log({ planner });
 
   return (
     <View>
       <Text>planner Page</Text>
       <FlatList
         data={planner}
-        renderItem={({ item: { markers }, index }) => (
+        renderItem={({ item: { items }, index }) => (
           <Text>
-            {index}: {JSON.stringify(markers)}
+            {index}: {JSON.stringify(items)}
           </Text>
         )}
       />

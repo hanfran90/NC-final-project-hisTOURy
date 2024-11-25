@@ -3,6 +3,7 @@ import HeadingTop from "../../components/HeadingTop";
 import DevAuthenticatedUser from "../../dev_components/DevAuthenticatedUser";
 import DevReadMarkersWithLongLat from "../../dev_components/DevReadMarkersWithLongLat";
 import DevTestNearby from "../../dev_components/DevTestNearby";
+import DevUserPlanner from "../../dev_components/DevUserPlanner";
 
 export default function Page() {
   return (
@@ -11,6 +12,7 @@ export default function Page() {
       <DevAuthenticatedUser />
       <DevReadMarkersWithLongLat />
       <DevTestNearby />
+      <DevUserPlanner />
     </View>
   );
 }

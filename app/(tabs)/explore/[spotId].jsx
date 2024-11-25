@@ -3,20 +3,21 @@ import { Button, Text, View } from "react-native";
 import SingleMarkerCard from "../../../components/SingleMarkerCard";
 import useMarkerInfo from "../../../hooks/useMarkerInfo";
 import { supabase } from "../../../utils/supabaseClient";
+import { TouchableOpacity } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../../components/Auth/AuthContext";
-import VoteCard from "../../../components/VoteCard";
-import useUserVote from "../../../hooks/useUserVote";
+import useUserAddToPlanner from "../../../hooks/useUserAddToPlanner";
 
 export default function SpotDetails() {
   const { spotId } = useLocalSearchParams();
-  const { user } = useContext(AuthContext);
-  const { data, isPending, error } = useMarkerInfo(spotId);
+  const marker_id = Number(spotId);
+  const { data, isPending, error } = useMarkerInfo(marker_id);
   const {
-    mutate,
-    isPending: isPendingMutation,
+    canAddToPlanner,
+    isPending: isMutating,
     error: mutationError,
-  } = useUserVote();
+    mutate: addToPlanner,
+  } = useUserAddToPlanner(marker_id);
 
   if (isPending) {
     return (
@@ -41,29 +42,18 @@ export default function SpotDetails() {
       </View>
     );
   }
-  function handleOnPress() {
-    return supabase
-      .from("users_markers")
-      .insert([{ user_id: user.id, marker_id: spotId }])
-      .select()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
   return (
-    <View>
-      {/* <Text>Page: Spot Details - {spotId}</Text> */}
+    <View className="p-4">
       <SingleMarkerCard markerData={data} />
-      <Button title="Add to planner" onPress={handleOnPress} />
-      <VoteCard
-        castVote={(value) => {
-          mutate({ value, user_id: user.id, marker_id: spotId });
-        }}
-        disabled={!Boolean(user)}
-      />
+      <TouchableOpacity
+        className="bg-blue-500 py-2 px-4 rounded-full mt-4"
+        onPress={addToPlanner}
+        disabled={!canAddToPlanner}
+      >
+        <Text className="text-white text-center font-semibold">
+          Add to planner
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
