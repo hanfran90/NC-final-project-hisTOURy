@@ -22,7 +22,8 @@ export default function AddSpot() {
   }
 
   return (
-    <View>
+    <View className="w-full bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
+      
       <CustomInput onChange={setTitle} label="Title:" />
       <CustomInput onChange={setDescription} label="Description:" />
       <Button
@@ -42,11 +43,15 @@ export default function AddSpot() {
       <Text>
         {coordinates[0]}, {coordinates[1]}
       </Text>
-      <Button
-        title="submit"
+       <TouchableOpacity
+        className="bg-green-500 py-3 rounded-lg w-full mt-4"
         onPress={handleSubmit}
+        >
+       <Text className="text-white text-center font-semibold text-lg">Submit</Text>
+     
+       
         disabled={isPending || !title || !description || !coordinates}
-      />
+        </TouchableOpacity>
       {data && <Text>Posted!</Text>}
     </View>
   );
