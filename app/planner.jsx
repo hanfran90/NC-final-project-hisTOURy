@@ -8,16 +8,14 @@ import { Link } from "expo-router";
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
 
-  console.log(data, isPending, error)
-
 	if (isPending || error || !data) return null;
 
 	return (
 		<View style={styles.container}>
 			{data[0].items.map((item) => {
 				return (
-          <View style={styles.item}>
-					<Text key={item.marker.marker_id} style={styles.text}>
+          <View key={item.marker.marker_id} style={styles.item}>
+					<Text style={styles.text}>
 						{item.marker.title}
 					</Text>
           </View>
@@ -32,7 +30,7 @@ export default function planner() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
+		justifyContent: "top",
 		alignItems: "center",
 		padding: 20,
 		backgroundColor: "#f5f5f5",

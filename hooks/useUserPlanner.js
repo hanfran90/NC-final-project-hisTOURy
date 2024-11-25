@@ -11,7 +11,7 @@ export default function useUserPlanner() {
       supabase
         .from("planners")
         .select(
-          "planner_id, title, items:planners_markers(marker:markers(marker_id, title,longitude,latitude), sequence)"
+          "planner_id, title, items:planners_markers(marker:markers(marker_id, title,longitude, latitude), sequence)"
         )
         .eq("user_id", userId)
         .then((res) => res.data),
