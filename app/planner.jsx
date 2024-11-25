@@ -5,10 +5,12 @@ import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { Link } from "expo-router";
 import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
+import useDeleteAllPlanner from "../hooks/useDeleteAllPlanner";
 
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
   const {mutate} = useDeleteMarkerPlanner()
+  const {mutate: deleteAll} = useDeleteAllPlanner()
 
 
 	if (isPending || error || !data) return null;
@@ -26,6 +28,7 @@ export default function planner() {
           </View>
 				);
 			})}
+      <Button onPress={deleteAll} title="Empty my planner"/>
       <Link href="/explore?route=show">View my route</Link>
 		</View>
 	);
