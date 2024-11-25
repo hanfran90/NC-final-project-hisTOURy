@@ -1,7 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../utils/supabaseClient";
+import { useContext } from "react";
+import { AuthContext } from "../components/Auth/AuthContext";
 
-function useAddMarker() {
+export default function useUserAddMarker() {
+  const { userId } = useContext(AuthContext);
+
   return useMutation({
     mutationKey: ["add-marker"],
     mutationFn: ({ title, description, coordinates }) => {
@@ -10,14 +14,15 @@ function useAddMarker() {
         .insert({
           title,
           description,
-          location: `POINT(${coordinates[0]} ${coordinates[1]})`,
+          longitude: coordinates[0],
+          latitude: coordinates[1],
+          user_id: userId,
         })
         .select()
         .then((response) => {
           return response.data[0];
         });
     },
+    enable: Boolean(userId),
   });
 }
-
-export default useAddMarker;
