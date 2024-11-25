@@ -10,7 +10,7 @@ import Mapbox, {
 import { useState, useRef} from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
@@ -48,6 +48,7 @@ export default function InteractiveMap({
   isInSelectMode = false,
   routeCoords
 }) {
+  const {route} = useLocalSearchParams()
   const { data, isPending, error } = useNearbyMarkers({ coords, distance });
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
@@ -104,7 +105,7 @@ export default function InteractiveMap({
 //route mapping 
 
   async function getMatchedRoute(coords) {
-		const profile = "walking"; // Options: driving, walking, cycling
+		const profile = "driving"; // Options: driving, walking, cycling
 		const accessToken = process.env.EXPO_PUBLIC_MAPBOX_PK;
 
 
@@ -172,6 +173,10 @@ export default function InteractiveMap({
 		}
 	}
 
+  if(route === "show"){
+    fetchAndDrawRoute()
+  }
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
@@ -217,7 +222,6 @@ export default function InteractiveMap({
 					</ShapeSource>
 				)}
       </MapView>
-      <Button onPress={fetchAndDrawRoute} title="Draw Route" />
     </View>
   );
 }

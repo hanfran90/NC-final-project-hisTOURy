@@ -1,24 +1,51 @@
 import React, { useContext } from "react";
+import { Animated, PanResponder, StyleSheet } from "react-native";
 import { FlatList, Text, View } from "react-native";
 import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
+import { Link } from "expo-router";
 
 export default function planner() {
-  const { data: planner } = useUserPlanner();
+	const { data, isPending, error } = useUserPlanner();
 
-  console.log({ planner });
+  console.log(data, isPending, error)
 
-  return (
-    <View>
-      <Text>planner Page</Text>
-      <FlatList
-        data={planner}
-        renderItem={({ item: { items }, index }) => (
-          <Text>
-            {index}: {JSON.stringify(items)}
-          </Text>
-        )}
-      />
-    </View>
-  );
+	if (isPending || error || !data) return null;
+
+	return (
+		<View style={styles.container}>
+			{data[0].items.map((item) => {
+				return (
+          <View style={styles.item}>
+					<Text key={item.marker.marker_id} style={styles.text}>
+						{item.marker.title}
+					</Text>
+          </View>
+				);
+			})}
+      <Link href="/explore?route=show">View my route</Link>
+		</View>
+	);
+
+
 }
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		padding: 20,
+		backgroundColor: "#f5f5f5",
+	},
+	item: {
+		padding: 20,
+		marginBottom: 10,
+		borderRadius: 8,
+		backgroundColor: "#fff",
+		borderWidth: 1,
+		borderColor: "#ccc",
+	},
+	text: {
+		fontSize: 16,
+	},
+});

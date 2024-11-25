@@ -10,6 +10,7 @@ const queryClient = new QueryClient();
 
 function _layout() {
   useReactQueryDevTools(queryClient);
+  
 
   return (
     <QueryClientProvider client={queryClient}>
