@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
-import { Animated, PanResponder, StyleSheet } from "react-native";
+import { Animated, Button, PanResponder, StyleSheet } from "react-native";
 import { FlatList, Text, View } from "react-native";
 import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { Link } from "expo-router";
+import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
 
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
+  useDeleteMarkerPlanner(4)
+
 
 	if (isPending || error || !data) return null;
 
@@ -18,6 +21,7 @@ export default function planner() {
 					<Text style={styles.text}>
 						{item.marker.title}
 					</Text>
+          <Button title="X"/>
           </View>
 				);
 			})}
