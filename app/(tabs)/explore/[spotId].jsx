@@ -46,7 +46,8 @@ export default function SpotDetails() {
     <View className="p-4">
       <SingleMarkerCard markerData={data} />
       <TouchableOpacity
-        className="bg-blue-500 py-2 px-4 rounded-full mt-4"
+       
+        className="bg-blue-500 py-2 px-4 rounded-full mt-4 disabled:bg-blue-200"
         onPress={addToPlanner}
         disabled={!canAddToPlanner}
       >
