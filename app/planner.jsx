@@ -8,7 +8,7 @@ import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
 
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
-  useDeleteMarkerPlanner(4)
+  const {mutate} = useDeleteMarkerPlanner()
 
 
 	if (isPending || error || !data) return null;
@@ -16,12 +16,13 @@ export default function planner() {
 	return (
 		<View style={styles.container}>
 			{data[0].items.map((item) => {
+        console.log(item)
 				return (
           <View key={item.marker.marker_id} style={styles.item}>
 					<Text style={styles.text}>
 						{item.marker.title}
 					</Text>
-          <Button title="X"/>
+          <Button onPress={()=> mutate(item.marker.marker_id)} title="X"/>
           </View>
 				);
 			})}
