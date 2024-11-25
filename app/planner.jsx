@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { FlatList, Text, View } from "react-native";
-import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 
 export default function planner() {
   const { data: planner } = useUserPlanner();
 
+  // console.log({ user, planner });
   console.log({ planner });
 
   return (
