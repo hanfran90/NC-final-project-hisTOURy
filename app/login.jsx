@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { Text, TextInput, View, Alert } from "react-native";
 import { AuthContext } from "../components/Auth/AuthContext";
+import CustomButton from "../components/CustomButton";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -8,7 +9,28 @@ export default function Login() {
     password: "",
   });
 
-  const { signIn, signUp, signOut } = useContext(AuthContext);
+  const { signIn, signUp, error } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (error === "user_already_exists") {
+      Alert.alert("Error", "User already exists!");
+    }
+    if (error === "weak_password") {
+      Alert.alert(
+        "Incorrect Password",
+        "Your password is easily guessed and needs to be changed."
+      );
+    }
+    if (error === "validation_failed") {
+      Alert.alert("Incorrect Email", "Please provide a correct email address!");
+    }
+    if (error === "invalid_credentials") {
+      Alert.alert("Error", "Please provide a correct email or password!");
+    }
+    // else {
+    //   Alert.alert("Error", "An unknown error occurred.")
+    // }
+  }, [error]);
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 dark:bg-gray-800 p-6">
@@ -49,32 +71,18 @@ export default function Login() {
         />
       </View>
       <View className="w-full">
-        <TouchableOpacity
-          className="bg-blue-500 py-3 rounded-lg mt-4"
+        <CustomButton
+          title="Sign In"
           onPress={() => signIn(form)}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign In
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="bg-green-500 py-3 rounded-lg mt-4"
+          color="primary"
+          disabled={!form.email || !form.password}
+        />
+        <CustomButton
+          title="Sign Up"
           onPress={() => signUp(form)}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign Up
-          </Text>
-        </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          className="bg-red-500 py-3 rounded-lg mt-4"
-          onPress={signOut}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign Out
-          </Text>
-        </TouchableOpacity> */}
+          color="secondary"
+          disabled={!form.email || !form.password}
+        />
       </View>
     </View>
   );

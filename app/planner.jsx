@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Animated, PanResponder, StyleSheet } from "react-native";
 import { FlatList, Text, View } from "react-native";
-import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { Link } from "expo-router";
 
