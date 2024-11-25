@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, Alert } from "react-native";
 import { AuthContext } from "../components/Auth/AuthContext";
+import CustomButton from "../components/CustomButton";
+import { useEffect } from "react";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -8,7 +10,7 @@ export default function Login() {
     password: "",
   });
 
-  const { signIn, signUp, signOut } = useContext(AuthContext);
+  const { signIn, signUp, error } = useContext(AuthContext);
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 dark:bg-gray-800 p-6">
@@ -49,32 +51,17 @@ export default function Login() {
         />
       </View>
       <View className="w-full">
-        <TouchableOpacity
-          className="bg-blue-500 py-3 rounded-lg mt-4"
+        <CustomButton
+          title="Sign In"
           onPress={() => signIn(form)}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign In
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="bg-green-500 py-3 rounded-lg mt-4"
+          color="primary"
+          disabled={!form.email || !form.password}
+        />
+        <CustomButton
+          title="Sign Up"
           onPress={() => signUp(form)}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign Up
-          </Text>
-        </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          className="bg-red-500 py-3 rounded-lg mt-4"
-          onPress={signOut}
-        >
-          <Text className="text-white text-center font-semibold text-lg">
-            Sign Out
-          </Text>
-        </TouchableOpacity> */}
+          color="secondary"
+        />
       </View>
     </View>
   );
