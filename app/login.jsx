@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Text, TextInput, View, Alert } from "react-native";
+import { Text, TextInput, View} from "react-native";
 import { AuthContext } from "../components/Auth/AuthContext";
 import CustomButton from "../components/CustomButton";
+import { handleError } from "../utils/handleError";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -12,24 +13,9 @@ export default function Login() {
   const { signIn, signUp, error } = useContext(AuthContext);
 
   useEffect(() => {
-    if (error === "user_already_exists") {
-      Alert.alert("Error", "User already exists!");
+    if (error) {
+      handleError(error);
     }
-    if (error === "weak_password") {
-      Alert.alert(
-        "Incorrect Password",
-        "Your password is easily guessed and needs to be changed."
-      );
-    }
-    if (error === "validation_failed") {
-      Alert.alert("Incorrect Email", "Please provide a correct email address!");
-    }
-    if (error === "invalid_credentials") {
-      Alert.alert("Error", "Please provide a correct email or password!");
-    }
-    // else {
-    //   Alert.alert("Error", "An unknown error occurred.")
-    // }
   }, [error]);
 
   return (
