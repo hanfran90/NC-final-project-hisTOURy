@@ -1,6 +1,5 @@
 import { Link } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
-
+import { Text, TouchableOpacity, View } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../../components/Auth/AuthContext";
 
@@ -8,18 +7,33 @@ export default function Tab() {
   const { user, signOut } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
-      <Text>User Profile: {user?.email}</Text>
-      <Link href="/user-profile/my-spots">My Spots</Link>
-      <Button title="Logout" onPress={signOut} />
+    <View className="flex-1 justify-center items-center bg-gray-100 dark:bg-gray-800 p-6 space-y-6">
+      <View className="w-full bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
+        <Text className="text-center text-lg font-bold text-gray-800">
+          Welcome{" "}
+          {user?.email.split("@")[0].charAt(0).toUpperCase() +
+            user?.email.split("@")[0].slice(1) +
+            "!"}
+        </Text>
+      </View>
+
+      <View className="w-full mt-4">
+        <Link
+          href="/user-profile/my-spots"
+          className="bg-green-500 py-3 rounded-lg text-center "
+        >
+          <Text className="text-white font-semibold text-lg">My Markers</Text>
+        </Link>
+      </View>
+
+      <TouchableOpacity
+        className="bg-red-500 py-3 rounded-lg w-full mt-4"
+        onPress={signOut}
+      >
+        <Text className="text-white text-center font-semibold text-lg">
+          Logout
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
