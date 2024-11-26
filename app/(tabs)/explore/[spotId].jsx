@@ -53,7 +53,7 @@ export default function SpotDetails() {
         title={"Add to Planner"}
         color={"primary"}
         onPress={addToPlanner}
-        disabled={true}
+        // disabled={true}
       />
       <VoteCard marker_id={spotId} votes={data.votes} user={user} />
     </View>
