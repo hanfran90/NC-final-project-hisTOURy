@@ -47,7 +47,8 @@ export default function InteractiveMap({
 	onSelectPlace = () => null,
 	isInSelectMode = false,
 	routeComponent,
-	route
+	route,
+	navigate
 }) {
 	const { data, isPending, error } = useNearbyMarkers({ coords, distance });
 	const [selectedFeature, setSelectedFeature] = useState(null);

@@ -11,15 +11,10 @@ import { StyleSheet, Text } from "react-native";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { mapboxInstance } from "../utils/mapboxInstance";
 
-export default function MapLayerPlanner({ enable }) {
+export default function MapLayerPlanner({ enable , userCoords}) {
 	console.log({ enable });
 
-	const styles = StyleSheet.create({
-		routeIcons: {
-			iconImage: "church_marker",
-			iconSize: 3,
-		},
-	});
+
 
 	const {
 		data: planner,
@@ -83,9 +78,13 @@ export default function MapLayerPlanner({ enable }) {
 		[Infinity, Infinity, -Infinity, -Infinity]
 	);
 
+console.log(userCoords)
 	return (
 		<>
-			<Camera
+			{userCoords ? <Camera 
+				
+				centerCoordinate={[userCoords.longitude, userCoords.latitude]}
+			/> : <Camera 
 				bounds={{
 					ne: [maxLng, maxLat],
 					sw: [minLng, minLat],
@@ -96,9 +95,16 @@ export default function MapLayerPlanner({ enable }) {
 					paddingLeft: 50,
 					paddingRight: 50,
 				}}
+				animationDuration={0}
 				// centerCoordinate={coordinates[0]}
-			/>
+			/>  }
+			
 			<ShapeSource id="route" shape={route.routes[0].geometry}>
+			<Images
+					images={{
+						green_triangle: require("../assets/maki--triangle32.png"),
+					}}
+				/>
 				<LineLayer
 					id="route-layer"
 					style={{
@@ -110,10 +116,12 @@ export default function MapLayerPlanner({ enable }) {
 				<SymbolLayer
 					id="arrowLayer"
 					style={{
-						iconImage: "rocket",
-						iconSize: 1,
+						iconImage: "green_triangle",
+						iconSize: 0.5,
 						iconRotate: 45,
 						symbolPlacement: "line",
+						iconAllowOverlap: true,
+						symbolSpacing: 50,
 					}}
 				/>
 			</ShapeSource>

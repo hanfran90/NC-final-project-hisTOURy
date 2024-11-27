@@ -1,14 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import FloatingAction from "../../../components/FloatingAction";
 import InteractiveMap from "../../../components/InteractiveMap";
 import MapLayerPlanner from "../../../components/MapLayerPlanner";
 import useCurrentLocation from "../../../hooks/useCurrentLocation";
+import NavigateTo from "../../../components/NavigateTo";
+import { AuthContext } from "../../../components/Auth/AuthContext";
 
 export default function Explore() {
-  const { route } = useLocalSearchParams();
-  const { location, isPending, error } = useCurrentLocation();
+  const { route, navigate } = useLocalSearchParams();
+  const { location, isPending, error } = useCurrentLocation(navigate === "true");
+  const { user } = useContext(AuthContext);
 
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
@@ -22,13 +25,18 @@ export default function Explore() {
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
           distance={1000}
-          routeComponent={<MapLayerPlanner enable={route === "show"} />}
+          routeComponent={<MapLayerPlanner enable={route === "show"} navigate={navigate} 
+          userCoords={navigate === "true" && location}
+          />}
           route={route}
         />
       </View>
       <FloatingAction href="/explore/add-spot">
         <Text className="text-center text-2xl font-bold text-white">+</Text>
       </FloatingAction>
+      {user && <NavigateTo href="/explore?route=show&navigate=true">
+        <Text className="text-center text-2xl font-bold text-white">Go</Text>
+      </NavigateTo>}
     </>
   );
 }
