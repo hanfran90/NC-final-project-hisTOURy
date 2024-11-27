@@ -25,9 +25,7 @@ export default function Explore() {
           routeComponent={<MapLayerPlanner enable={route === "show"} />}
         />
       </View>
-      <AddNewMarkerButton href="/explore/add-spot">
-        <Text className="text-center text-2xl font-bold text-white">+</Text>
-      </AddNewMarkerButton>
+      <AddNewMarkerButton href="/explore/add-spot"/>
     </>
   );
 }
