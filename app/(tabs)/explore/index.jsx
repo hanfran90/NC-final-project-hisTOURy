@@ -32,9 +32,8 @@ export default function Explore() {
         />
       </View>
       <AddNewMarkerButton href="/explore/add-spot"/>
-      {user && <NavigateTo href={navigate !== "true" ? "/explore?route=show&navigate=true" : "/explore"}>
-        <Text className="text-center text-2xl font-bold text-white">Go</Text>
-      </NavigateTo>}
+      {user && route && <NavigateTo />}
+      
     </>
   );
 }

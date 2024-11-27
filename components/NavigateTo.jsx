@@ -1,22 +1,22 @@
 import { router } from "expo-router";
+import { Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 
-export default function NavigateTo({ children, href = null, onPress }) {
+export default function NavigateTo() {
   const handlePress = () => {
-    if (href) {
-      router.navigate(href);
-      return;
+   
+      router.navigate( "/explore?route=show&navigate=true");
+      
     }
 
-    onPress();
-  };
+
 
   return (
     <TouchableOpacity
-      className="absolute size-[48] bg-slate-500 rounded-full flex justify-center items-center m-4 top-0 right-0"
+      className="absolute size-[48] bg-slate-500 rounded-full flex justify-center items-center m-4 bottom-0 left-0"
       onPress={handlePress}
     >
-      {children}
+      <Text className="text-center text-2xl font-bold text-white">Go</Text>
     </TouchableOpacity>
   );
 }

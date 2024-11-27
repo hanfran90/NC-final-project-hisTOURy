@@ -55,6 +55,8 @@ export default function InteractiveMap({
 	const [selectedCoordinates, setSelectedCoordinates] = useState(null);
 	const mapRef = useRef(null);
 
+
+
 	if (isPending) return <Text>Pending...</Text>;
 
 	const geojson = {
@@ -90,6 +92,7 @@ export default function InteractiveMap({
 
 	function onPinPress(event) {
 		const feature = event?.features[0];
+    console.log(feature)
 		setSelectedFeature((prevSelectedFeature) =>
 			prevSelectedFeature && prevSelectedFeature.id === feature.id
 				? null
