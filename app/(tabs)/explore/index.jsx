@@ -34,7 +34,7 @@ export default function Explore() {
       <FloatingAction href="/explore/add-spot">
         <Text className="text-center text-2xl font-bold text-white">+</Text>
       </FloatingAction>
-      {user && <NavigateTo href={navigate !== "true" ? "/explore?route=show&navigate=true" : "/explore"}>
+      {user && route && <NavigateTo href={navigate !== "true" ? "/explore?route=show&navigate=true" : "/explore"}>
         <Text className="text-center text-2xl font-bold text-white">Go</Text>
       </NavigateTo>}
     </>
