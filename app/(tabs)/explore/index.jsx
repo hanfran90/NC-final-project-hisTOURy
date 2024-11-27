@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, View } from "react-native";
 import AddNewMarkerButton from "../../../components/AddNewMarkerButton";
 import InteractiveMap from "../../../components/InteractiveMap";
@@ -36,25 +36,17 @@ export default function Explore() {
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
-          distance={1000}
+          distance={3000}
           routeComponent={
-            route === "show" && <MapLayerPlanner enable={route === "show"} />
+            route === "show" && <MapLayerPlanner enable={route === "show"} navigate={navigate} 
+          userCoords={navigate === "true" && location}/>
           }
           filterCategories={selectedItems}
+          route={route}
         />
       </View>
       <AddNewMarkerButton href="/explore/add-spot" />
-      {user && (
-        <NavigateTo
-          href={
-            navigate !== "true"
-              ? "/explore?route=show&navigate=true"
-              : "/explore"
-          }
-        >
-          <Text className="text-center text-2xl font-bold text-white">Go</Text>
-        </NavigateTo>
-      )}
+      {user && route && <NavigateTo />}
     </>
   );
 }

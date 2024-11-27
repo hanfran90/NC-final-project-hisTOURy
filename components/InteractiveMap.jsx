@@ -9,7 +9,7 @@ import Mapbox, {
 } from "@rnmapbox/maps";
 import { Link } from "expo-router";
 import { useRef, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
@@ -60,22 +60,23 @@ export default function InteractiveMap({
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
   const mapRef = useRef(null);
 
-  if (isPending) return <Text>Pending...</Text>;
+	if (isPending) return <Text>Pending...</Text>;
 
-  const geojson = {
-    type: "FeatureCollection",
-    features: data?.map((point) => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [point.longitude, point.latitude],
-      },
-      properties: {
-        title: point.title,
-        marker_id: point.marker_id,
-      },
-    })),
-  };
+	const geojson = {
+		type: "FeatureCollection",
+		features: data?.map((point) => ({
+			type: "Feature",
+			geometry: {
+				type: "Point",
+				coordinates: [point.longitude, point.latitude],
+			},
+			properties: {
+				title: point.title,
+				marker_id: point.marker_id,
+				image: point.image
+			},
+		})),
+	};
 
   const geojsonLongPress = selectedCoordinates && {
     type: "FeatureCollection",
@@ -137,65 +138,67 @@ export default function InteractiveMap({
   function closePopUp() {
     setSelectedFeature(null);
   }
+  
+	function MarkerPopUp({ item: { title, marker_id, image} }) {
+	
+		return (
+			<View style={styles.calloutContainerStyle}>
+				<Button
+					onPress={() => {
+						closePopUp();
+					}}
+					title="x"
+				/>
+				<Text style={styles.customCalloutText}>{title}</Text>
+				<Image source={{url: image}} className="m-4 h-20 rounded-xl"/>
+				<Link
+					className="bg-blue-500 py-3 rounded-lg text-center "
+					href={`(tabs)/explore/${marker_id}`}
+				>
+					take me here
+				</Link>
+			</View>
+		);
+	}
 
-  function MarkerPopUp({ item: { title, marker_id } }) {
-    return (
-      <View style={styles.calloutContainerStyle}>
-        <Button
-          onPress={() => {
-            closePopUp();
-          }}
-          title="x"
-        />
-        <Text style={styles.customCalloutText}>{title}</Text>
-        <Link
-          className="bg-blue-500 py-3 rounded-lg text-center "
-          href={`(tabs)/explore/${marker_id}`}
-        >
-          take me here
-        </Link>
-      </View>
-    );
-  }
 
-  console.log(route);
-
-  return (
-    <View style={styles.container}>
-      <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
-        {route !== "show" && (
-          <Camera zoomLevel={15} centerCoordinate={coords} />
-        )}
-        <LocationPuck puckBearing="heading" puckBearingEnabled />
-        <Images
-          images={{
-            green_marker: require("../assets/green-marker.png"),
-          }}
-        />
-        {/* location markers */}
-        {!isInSelectMode && (
-          <ShapeSource id="points" shape={geojson} onPress={onPinPress}>
-            <SymbolLayer id="point-layer" source="points" style={styles.icon} />
-          </ShapeSource>
-        )}
-        {/*long press icon */}
-        {geojsonLongPress && (
-          <ShapeSource id="selectedCoords" shape={geojsonLongPress}>
-            <SymbolLayer
-              id="selected-layer"
-              source="selectedCoords"
-              style={styles.iconSelected}
-            />
-          </ShapeSource>
-        )}
-        {/*selected feature pop up */}
-        {selectedFeature && (
-          <MarkerView coordinate={selectedFeature.geometry.coordinates}>
-            <MarkerPopUp item={selectedFeature?.properties} />
-          </MarkerView>
-        )}
-        {route && routeComponent}
-      </MapView>
-    </View>
-  );
+	return (
+		<View style={styles.container}>
+			<MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
+				{selectedFeature ? (<Camera
+					zoomLevel={15}
+					centerCoordinate={selectedFeature.geometry.coordinates}
+				/>) : route !== "show" && <Camera zoomLevel={15} centerCoordinate={coords} />}
+				<LocationPuck puckBearing="heading" puckBearingEnabled />
+				<Images
+					images={{
+						green_marker: require("../assets/green-marker.png"),
+					}}
+				/>
+				{/* location markers */}
+				{!isInSelectMode && route !== "show" && (
+					<ShapeSource id="points" shape={geojson} onPress={onPinPress}>
+						<SymbolLayer id="point-layer" source="points" style={styles.icon} />
+					</ShapeSource>
+				)}
+				{/*long press icon */}
+				{geojsonLongPress && (
+					<ShapeSource id="selectedCoords" shape={geojsonLongPress}>
+						<SymbolLayer
+							id="selected-layer"
+							source="selectedCoords"
+							style={styles.iconSelected}
+						/>
+					</ShapeSource>
+				)}
+				{/*selected feature pop up */}
+				{selectedFeature && (
+					<MarkerView coordinate={selectedFeature.geometry.coordinates}>
+						<MarkerPopUp item={selectedFeature?.properties} />
+					</MarkerView>
+				)}
+				{route && routeComponent}
+			</MapView>
+		</View>
+	);
 }
