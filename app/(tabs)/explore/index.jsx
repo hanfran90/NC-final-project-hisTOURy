@@ -14,7 +14,7 @@ export default function Explore() {
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
 
-  console.log({ route });
+  console.log( route );
 
   return (
     <>
@@ -23,6 +23,7 @@ export default function Explore() {
           coords={[location.longitude, location.latitude]}
           distance={1000}
           routeComponent={<MapLayerPlanner enable={route === "show"} />}
+          route={route}
         />
       </View>
       <FloatingAction href="/explore/add-spot">
