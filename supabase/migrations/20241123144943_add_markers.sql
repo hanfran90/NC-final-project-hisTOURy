@@ -11,7 +11,8 @@ CREATE TABLE markers (
     latitude FLOAT NOT NULL,
     user_id UUID REFERENCES profiles ON DELETE SET NULL,
     avg_vote INT NOT NULL DEFAULT 0,
-    user_vote_count INT NOT NULL DEFAULT 0
+    user_vote_count INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX geo_marker ON markers USING GIST (location);
