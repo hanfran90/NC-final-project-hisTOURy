@@ -6,7 +6,7 @@ import {
   Text,
   FlatList,
   StyleSheet,
-} from "react-native"
+} from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
 const DropdownSearch = ({ options, onOptionSelected }) => {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginTop: 5,
     overflow: "hidden",
-    maxHeight: 200,
+    maxHeight: 100,
   },
   option: {
     padding: 10,

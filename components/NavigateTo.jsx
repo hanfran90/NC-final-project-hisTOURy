@@ -13,7 +13,7 @@ export default function NavigateTo({ children, href = null, onPress }) {
 
   return (
     <TouchableOpacity
-      className="absolute size-[48] bg-slate-500 rounded-full flex justify-center items-center m-4 top-0 right-0"
+      className="absolute size-[48] bg-slate-500 rounded-full flex justify-center items-center m-4 bottom-0 left-0"
       onPress={handlePress}
     >
       {children}
