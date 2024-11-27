@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useContext } from "react";
 import { Text, View } from "react-native";
-import FloatingAction from "../../../components/FloatingAction";
+import AddNewMarkerButton from "../../../components/AddNewMarkerButton";
 import InteractiveMap from "../../../components/InteractiveMap";
 import MapLayerPlanner from "../../../components/MapLayerPlanner";
 import useCurrentLocation from "../../../hooks/useCurrentLocation";
@@ -31,12 +31,9 @@ export default function Explore() {
           route={route}
         />
       </View>
-      <FloatingAction href="/explore/add-spot">
-        <Text className="text-center text-2xl font-bold text-white">+</Text>
-      </FloatingAction>
-      {user && route && <NavigateTo href={navigate !== "true" ? "/explore?route=show&navigate=true" : "/explore"}>
-        <Text className="text-center text-2xl font-bold text-white">Go</Text>
-      </NavigateTo>}
+      <AddNewMarkerButton href="/explore/add-spot"/>
+      {user && route && <NavigateTo />}
+      
     </>
   );
 }
