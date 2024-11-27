@@ -7,33 +7,46 @@ import MapLayerPlanner from "../../../components/MapLayerPlanner";
 import useCurrentLocation from "../../../hooks/useCurrentLocation";
 import NavigateTo from "../../../components/NavigateTo";
 import { AuthContext } from "../../../components/Auth/AuthContext";
+import MultiDropDown from "../../../components/MultiSelect";
+import { useState } from "react";
 
 export default function Explore() {
   const { route, navigate } = useLocalSearchParams();
-  const { location, isPending, error } = useCurrentLocation(navigate === "true");
+  const { location, isPending, error } = useCurrentLocation(
+    navigate === "true"
+  );
   const { user } = useContext(AuthContext);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
 
-  console.log( route );
+  console.log(route);
 
   return (
     <>
+      <View>
+        <MultiDropDown
+          onSelectItems={(value) => {
+            setSelectedItems(value);
+          }}
+        />
+      </View>
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
           distance={3000}
-          routeComponent={<MapLayerPlanner enable={route === "show"} navigate={navigate} 
-          userCoords={navigate === "true" && location}
-          />}
+          routeComponent={
+            route === "show" && <MapLayerPlanner enable={route === "show"} navigate={navigate} 
+          userCoords={navigate === "true" && location}/>
+          }
+          filterCategories={selectedItems}
           route={route}
         />
       </View>
-      <AddNewMarkerButton href="/explore/add-spot"/>
+      <AddNewMarkerButton href="/explore/add-spot" />
       {user && route && <NavigateTo />}
-      
     </>
   );
 }

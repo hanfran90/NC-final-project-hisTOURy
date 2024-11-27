@@ -1,11 +1,11 @@
 import Mapbox, {
-	Camera,
-	LocationPuck,
-	MapView,
-	MarkerView,
-	ShapeSource,
-	SymbolLayer,
-	Images,
+  Camera,
+  LocationPuck,
+  MapView,
+  MarkerView,
+  ShapeSource,
+  SymbolLayer,
+  Images,
 } from "@rnmapbox/maps";
 import { Link } from "expo-router";
 import { useRef, useState } from "react";
@@ -15,47 +15,50 @@ import useNearbyMarkers from "../hooks/useNearbyMarkers";
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
 const styles = StyleSheet.create({
-	container: {
-		height: "100%",
-		width: "100%",
-	},
-	map: {
-		flex: 1,
-	},
-	icon: {
-		iconImage: "green_marker",
-		iconSize: 0.1,
-	},
-	iconSelected: {
-		iconImage: "marker",
-		iconSize: 3,
-	},
-	calloutContainerStyle: {
-		backgroundColor: "white",
-		padding: 10,
-		borderRadius: 5,
-	},
-	customCalloutText: {
-		color: "black",
-		fontSize: 16,
-	},
+  container: {
+    height: "100%",
+    width: "100%",
+  },
+  map: {
+    flex: 1,
+  },
+  icon: {
+    iconImage: "green_marker",
+    iconSize: 0.1,
+  },
+  iconSelected: {
+    iconImage: "marker",
+    iconSize: 3,
+  },
+  calloutContainerStyle: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+  },
+  customCalloutText: {
+    color: "black",
+    fontSize: 16,
+  },
 });
 
 export default function InteractiveMap({
-	coords,
-	distance,
-	onSelectPlace = () => null,
-	isInSelectMode = false,
-	routeComponent,
-	route,
-	navigate,
+  coords,
+  distance,
+  onSelectPlace = () => null,
+  isInSelectMode = false,
+  routeComponent,
+  route,
+  navigate,
+  filterCategories,
 }) {
-	const { data, isPending, error } = useNearbyMarkers({ coords, distance });
-	const [selectedFeature, setSelectedFeature] = useState(null);
-	const [selectedCoordinates, setSelectedCoordinates] = useState(null);
-	const mapRef = useRef(null);
-
-	console.log(selectedFeature)
+  const { data, isPending, error } = useNearbyMarkers({
+    coords,
+    distance,
+    cats: filterCategories,
+  });
+  const [selectedFeature, setSelectedFeature] = useState(null);
+  const [selectedCoordinates, setSelectedCoordinates] = useState(null);
+  const mapRef = useRef(null);
 
 	if (isPending) return <Text>Pending...</Text>;
 
@@ -75,67 +78,67 @@ export default function InteractiveMap({
 		})),
 	};
 
-	const geojsonLongPress = selectedCoordinates && {
-		type: "FeatureCollection",
-		features: [
-			{
-				type: "Feature",
-				geometry: {
-					type: "Point",
-					coordinates: [selectedCoordinates[0], selectedCoordinates[1]],
-				},
-				properties: {
-					title: "selected",
-				},
-			},
-		],
-	};
+  const geojsonLongPress = selectedCoordinates && {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [selectedCoordinates[0], selectedCoordinates[1]],
+        },
+        properties: {
+          title: "selected",
+        },
+      },
+    ],
+  };
 
-	function onPinPress(event) {
-		const feature = event?.features[0];
-		setSelectedFeature((prevSelectedFeature) =>
-			prevSelectedFeature && prevSelectedFeature.id === feature.id
-				? null
-				: feature
-		);
-	}
+  function onPinPress(event) {
+    const feature = event?.features[0];
+    setSelectedFeature((prevSelectedFeature) =>
+      prevSelectedFeature && prevSelectedFeature.id === feature.id
+        ? null
+        : feature
+    );
+  }
 
-	function handleLongPress(event) {
-		if (!isInSelectMode) return;
-		onSelectPlace(event.geometry.coordinates);
-		setSelectedCoordinates(event.geometry.coordinates);
-	}
+  function handleLongPress(event) {
+    if (!isInSelectMode) return;
+    onSelectPlace(event.geometry.coordinates);
+    setSelectedCoordinates(event.geometry.coordinates);
+  }
 
-	function addRouteToMap(map, routeGeoJSON) {
-		if (map.getSource("route")) {
-			map.getSource("route").setData(routeGeoJSON);
-		} else {
-			map.addSource("route", {
-				type: "geojson",
-				data: routeGeoJSON,
-			});
+  function addRouteToMap(map, routeGeoJSON) {
+    if (map.getSource("route")) {
+      map.getSource("route").setData(routeGeoJSON);
+    } else {
+      map.addSource("route", {
+        type: "geojson",
+        data: routeGeoJSON,
+      });
 
-			map.addLayer({
-				id: "route",
-				type: "line",
-				source: "route",
-				layout: {
-					"line-join": "round",
-					"line-cap": "round",
-				},
-				paint: {
-					"line-color": "#03AA46",
-					"line-width": 5,
-					"line-opacity": 0.8,
-				},
-			});
-		}
-	}
+      map.addLayer({
+        id: "route",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#03AA46",
+          "line-width": 5,
+          "line-opacity": 0.8,
+        },
+      });
+    }
+  }
 
-	function closePopUp() {
-		setSelectedFeature(null);
-	}
-
+  function closePopUp() {
+    setSelectedFeature(null);
+  }
+  
 	function MarkerPopUp({ item: { title, marker_id, image} }) {
 	
 		return (
