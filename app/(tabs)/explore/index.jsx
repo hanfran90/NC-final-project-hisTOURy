@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import FloatingAction from "../../../components/FloatingAction";
+import AddNewMarkerButton from "../../../components/AddNewMarkerButton";
 import InteractiveMap from "../../../components/InteractiveMap";
 import MapLayerPlanner from "../../../components/MapLayerPlanner";
 import useCurrentLocation from "../../../hooks/useCurrentLocation";

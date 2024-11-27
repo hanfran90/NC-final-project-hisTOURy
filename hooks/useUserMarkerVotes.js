@@ -1,20 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabaseClient";
-import { useContext } from "react";
 import { AuthContext } from "../components/Auth/AuthContext";
+import { useContext } from "react";
 
-export default function useUserMarkers() {
+export default function useUserMarkerVotes() {
   const { userId } = useContext(AuthContext);
-
   return useQuery({
-    queryKey: ["user-markers", userId],
+    queryKey: ["user", "userVotes", userId],
     queryFn: () =>
       supabase
-        .from("markers")
-        .select()
+        .from("votes")
+        .select("marker_id, markers(*)")
         .eq("user_id", userId)
-        .then((response) => {
-          return response.data;
+        .then(({ data }) => {
+          return data.map((vote) => vote.markers);
         }),
+    enabled: Boolean(userId),
   });
 }
