@@ -9,7 +9,7 @@ import Mapbox, {
 } from "@rnmapbox/maps";
 import { Link } from "expo-router";
 import { useRef, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
@@ -68,6 +68,7 @@ export default function InteractiveMap({
 			properties: {
 				title: point.title,
 				marker_id: point.marker_id,
+				image: point.image
 			},
 		})),
 	};
@@ -133,7 +134,8 @@ export default function InteractiveMap({
 		setSelectedFeature(null);
 	}
 
-	function MarkerPopUp({ item: { title, marker_id } }) {
+	function MarkerPopUp({ item: { title, marker_id, image} }) {
+	
 		return (
 			<View style={styles.calloutContainerStyle}>
 				<Button
@@ -143,6 +145,7 @@ export default function InteractiveMap({
 					title="x"
 				/>
 				<Text style={styles.customCalloutText}>{title}</Text>
+				<Image source={{url: image}} className="m-4 h-20 rounded-xl"/>
 				<Link
 					className="bg-blue-500 py-3 rounded-lg text-center "
 					href={`(tabs)/explore/${marker_id}`}
@@ -153,7 +156,6 @@ export default function InteractiveMap({
 		);
 	}
 
-	console.log(route)
 
 	return (
 		<View style={styles.container}>
