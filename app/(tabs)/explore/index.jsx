@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, View } from "react-native";
 import AddNewMarkerButton from "../../../components/AddNewMarkerButton";
 import InteractiveMap from "../../../components/InteractiveMap";
