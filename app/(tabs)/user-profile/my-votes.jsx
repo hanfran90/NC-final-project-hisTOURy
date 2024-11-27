@@ -1,15 +1,16 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
-import useUserMarkers from "../../../hooks/useUsersMarkers";
+import React from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import AverageVoteCard from "../../../components/AverageVoteCard";
+import useUserMarkerVotes from "../../../hooks/useUserMarkerVotes";
 
-export default function MySpots() {
-  const { data: markers } = useUserMarkers();
+export default function MyVotes() {
+  const { data: likedMarkers } = useUserMarkerVotes();
 
   return (
-    <View className="flex-1 px-4 py-6 bg-gray-100 dark:bg-gray-800">
+    <View className="flex-1 px-4 py-6 bg-gray-100">
       <FlatList
-        data={markers}
+        data={likedMarkers}
         keyExtractor={(item) => item.marker_id.toString()}
         renderItem={({ item }) => (
           <Link href={`/user-profile/${item.marker_id}`} asChild>
@@ -19,10 +20,9 @@ export default function MySpots() {
                   {item.title}
                 </Text>
                 <Text className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-                  {item.description
-                    ? `${item.description.slice(0, 50)}...`
-                    : "No description provided."}
+                  Votes: {item.avg_vote}/5
                 </Text>
+                <AverageVoteCard avgVote={item.avg_vote} />
               </View>
             </TouchableOpacity>
           </Link>
