@@ -5,7 +5,8 @@ CREATE FUNCTION nearby_markers(long float, lat float, distance int)
         title markers.title%TYPE,
         latitude float,
         longitude float,
-        distance_meters float
+        distance_meters float,
+        image varchar
     )
     LANGUAGE SQL
     AS $$
@@ -13,7 +14,8 @@ CREATE FUNCTION nearby_markers(long float, lat float, distance int)
                 title,
                 gis.st_y(location::gis.geometry) as latitude,
                 gis.st_x(location::gis.geometry) as longitude,
-                gis.st_distance(location, gis.st_point(long, lat)::gis.geography) as distance_meters
+                gis.st_distance(location, gis.st_point(long, lat)::gis.geography) as distance_meters,
+                image
         FROM markers
         WHERE gis.st_dwithin(location, gis.st_point(long, lat)::gis.geography, distance)
         ORDER BY distance_meters ASC;
