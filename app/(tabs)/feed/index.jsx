@@ -1,9 +1,12 @@
 import { Link } from "expo-router";
 import Card from "../../../components/Card";
+import { Text, View } from "react-native";
 
 export default function Tab() {
   return (
-    <>
+    
+    <View>
+    <Text>Here are the most popular articles:</Text>
       <Card title="TODO: Theme Banner">
         <Link className="text-right" href="/feed/theme">
           See more
@@ -24,6 +27,7 @@ export default function Tab() {
           See more
         </Link>
       </Card>
-    </>
+      </View>
+    
   );
 }
