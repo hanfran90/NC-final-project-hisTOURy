@@ -48,12 +48,14 @@ export default function InteractiveMap({
 	isInSelectMode = false,
 	routeComponent,
 	route,
-	navigate
+	navigate,
 }) {
 	const { data, isPending, error } = useNearbyMarkers({ coords, distance });
 	const [selectedFeature, setSelectedFeature] = useState(null);
 	const [selectedCoordinates, setSelectedCoordinates] = useState(null);
 	const mapRef = useRef(null);
+
+	console.log(selectedFeature)
 
 	if (isPending) return <Text>Pending...</Text>;
 
@@ -160,7 +162,10 @@ export default function InteractiveMap({
 	return (
 		<View style={styles.container}>
 			<MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
-				{route !== "show" && <Camera zoomLevel={15} centerCoordinate={coords} />}
+				{selectedFeature ? (<Camera
+					zoomLevel={15}
+					centerCoordinate={selectedFeature.geometry.coordinates}
+				/>) : route !== "show" && <Camera zoomLevel={15} centerCoordinate={coords} />}
 				<LocationPuck puckBearing="heading" puckBearingEnabled />
 				<Images
 					images={{
@@ -168,7 +173,7 @@ export default function InteractiveMap({
 					}}
 				/>
 				{/* location markers */}
-				{!isInSelectMode && (
+				{!isInSelectMode && route !== "show" && (
 					<ShapeSource id="points" shape={geojson} onPress={onPinPress}>
 						<SymbolLayer id="point-layer" source="points" style={styles.icon} />
 					</ShapeSource>
