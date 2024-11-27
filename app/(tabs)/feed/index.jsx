@@ -6,7 +6,6 @@ export default function Tab() {
   return (
     
     <View>
-    <Text>Here are the most popular articles:</Text>
       <Card title="TODO: Theme Banner">
         <Link className="text-right" href="/feed/theme">
           See more
