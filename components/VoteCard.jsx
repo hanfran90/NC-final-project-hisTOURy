@@ -4,7 +4,6 @@ import useUserVoteOnMarker from "../hooks/useUserVoteOnMarker";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function VoteCard({
-  user,
   avgVote,
   userVoteCount,
   marker_id,
@@ -61,7 +60,7 @@ export default function VoteCard({
         <Text className="text-sm text-center">({userVoteCount})</Text>
       </View>
 
-      {user && (
+      {canVote && (
         <>
           <Text className="text-center text-lg font-bold text-gray-800 pt-6">
             Your Star Rating
