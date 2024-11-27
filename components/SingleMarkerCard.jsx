@@ -6,9 +6,10 @@ export default function SingleMarkerCard({ markerData }) {
       <View>
         <View className="m-4 mb-0 last-child:mb-4 p-4 min-h-[100] flex justify-center content-center rounded-xl bg-white">
           <Text>{markerData.photo}</Text>
+          console.log(markerData)
           <Image
             source={{
-              uri: "https://www.dfc.co.uk/wp-content/uploads/2018/09/MTC-Oxford-House_taken-by-NS_0869.png",
+              url: markerData.image,
             }}
             className="m-4 h-40 rounded-xl"
           />
