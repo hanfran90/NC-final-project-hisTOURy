@@ -5,12 +5,13 @@ import Mapbox, {
   MarkerView,
   ShapeSource,
   SymbolLayer,
-  LineLayer
+	Images
 } from "@rnmapbox/maps";
-import { useState, useRef} from "react";
+import { Link } from "expo-router";
+import { useRef, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
-import { Link, useLocalSearchParams } from "expo-router";
+
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
@@ -23,8 +24,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    iconImage: "rocket",
-    iconSize: 1.5,
+    iconImage: "green_marker",
+    iconSize: .1,
   },
   iconSelected: {
     iconImage: "marker",
@@ -46,14 +47,12 @@ export default function InteractiveMap({
   distance,
   onSelectPlace = () => null,
   isInSelectMode = false,
-  routeCoords
+  routeComponent,
 }) {
-  const {route} = useLocalSearchParams()
   const { data, isPending, error } = useNearbyMarkers({ coords, distance });
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
-  const mapRef = useRef(null); 
-	const [routeGeoJSON, setRouteGeoJSON] = useState(null);
+  const mapRef = useRef(null);
 
   if (isPending) return <Text>Pending...</Text>;
 
@@ -102,89 +101,63 @@ export default function InteractiveMap({
     onSelectPlace(event.geometry.coordinates);
     setSelectedCoordinates(event.geometry.coordinates);
   }
-//route mapping 
 
-  async function getMatchedRoute(coords) {
-		const profile = "driving"; // Options: driving, walking, cycling
-		const accessToken = process.env.EXPO_PUBLIC_MAPBOX_PK;
+  function addRouteToMap(map, routeGeoJSON) {
+    if (map.getSource("route")) {
+      map.getSource("route").setData(routeGeoJSON);
+    } else {
+      map.addSource("route", {
+        type: "geojson",
+        data: routeGeoJSON,
+      });
 
-
-		const coordinates = coords.map((c) => c.join(",")).join(";");
-		const radius = coords.map(() => 25).join(";"); 
-
-		const query = `https://api.mapbox.com/matching/v5/mapbox/${profile}/${coordinates}?geometries=geojson&radiuses=${radius}&access_token=${accessToken}`;
-
-		try {
-			const response = await fetch(query);
-			const json = await response.json();
-
-			if (json.code !== "Ok") {
-				throw new Error(`${json.code}: ${json.message}`);
-			}
-			return json.matchings[0].geometry;
-		} catch (error) {
-			console.error("Error fetching matched route:", error);
-			return null;
-		}
-	}
-
-	async function fetchAndDrawRoute() {
-		const matchedRoute = await getMatchedRoute(routeCoords);
-		if (matchedRoute) {
-			const route = {
-				type: "Feature",
-				geometry: matchedRoute,
-				properties: {},
-			};
-
-			setRouteGeoJSON(route);
-
-
-			if (mapRef.current) {
-				const map = mapRef.current; 
-				addRouteToMap(map, route);
-			}
-		}
-	}
-
-	function addRouteToMap(map, routeGeoJSON) {
-		if (map.getSource("route")) {
-			map.getSource("route").setData(routeGeoJSON);
-		} else {
-			map.addSource("route", {
-				type: "geojson",
-				data: routeGeoJSON,
-			});
-
-			map.addLayer({
-				id: "route",
-				type: "line",
-				source: "route",
-				layout: {
-					"line-join": "round",
-					"line-cap": "round",
-				},
-				paint: {
-					"line-color": "#03AA46",
-					"line-width": 5,
-					"line-opacity": 0.8,
-				},
-			});
-		}
-	}
-
-  if(route === "show"){
-    fetchAndDrawRoute()
+      map.addLayer({
+        id: "route",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#03AA46",
+          "line-width": 5,
+          "line-opacity": 0.8,
+        },
+      });
+    }
   }
 
+	function closePopUp (){
+		setSelectedFeature(null)
+	}
+
+	function MarkerPopUp({ item: { title, marker_id } }) {
+		return (
+			<View style={styles.calloutContainerStyle}>
+				<Button
+					onPress={() => {
+						closePopUp();
+					}}
+					title="x"
+				/>
+				<Text style={styles.customCalloutText}>{title}</Text>
+				<Link className="bg-blue-500 py-3 rounded-lg text-center " href={`(tabs)/explore/${marker_id}`}>take me here</Link>
+			</View>
+		);
+	}
+
+
   return (
+		
     <View style={styles.container}>
       <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
-        <Camera zoomLevel={15} centerCoordinate={coords} />
-        <LocationPuck
-          puckBearing="heading"
-          puckBearingEnabled
-          
+        {!routeComponent && <Camera zoomLevel={15} centerCoordinate={coords} />}
+        <LocationPuck puckBearing="heading" puckBearingEnabled />
+				<Images
+          images={{
+            green_marker: require('../assets/green-marker.png'), 
+          }}
         />
         {/* location markers */}
         {!isInSelectMode && (
@@ -202,35 +175,15 @@ export default function InteractiveMap({
             />
           </ShapeSource>
         )}
-{/*selected feature pop up */}
+        {/*selected feature pop up */}
         {selectedFeature && (
           <MarkerView coordinate={selectedFeature.geometry.coordinates}>
             <MarkerPopUp item={selectedFeature?.properties} />
           </MarkerView>
         )}
-        {/* route line layer */}
-        {routeGeoJSON && (
-					<ShapeSource id="route" shape={routeGeoJSON}>
-						<LineLayer
-							id="route-layer"
-							style={{
-								lineColor: "#03AA46",
-								lineWidth: 5,
-								lineOpacity: 0.8,
-							}}
-						/>
-					</ShapeSource>
-				)}
+        {routeComponent}
       </MapView>
     </View>
   );
 }
 
-function MarkerPopUp({ item: { title, marker_id } }) {
-  return (
-    <View style={styles.calloutContainerStyle}>
-      <Text style={styles.customCalloutText}>{title}</Text>
-      <Link href={`(tabs)/explore/${marker_id}`}>take me here</Link>
-    </View>
-  );
-}

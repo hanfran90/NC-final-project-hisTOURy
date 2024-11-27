@@ -1,33 +1,28 @@
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import useCurrentLocation from "../../../hooks/useCurrentLocation";
+import FloatingAction from "../../../components/FloatingAction";
 import InteractiveMap from "../../../components/InteractiveMap";
-import AddNewMarkerButton from "../../../components/AddNewMarkerButton";
-import useUserPlanner from "../../../hooks/useUserPlanner";
+import MapLayerPlanner from "../../../components/MapLayerPlanner";
+import useCurrentLocation from "../../../hooks/useCurrentLocation";
 
 export default function Explore() {
+  const { route } = useLocalSearchParams();
   const { location, isPending, error } = useCurrentLocation();
-  const { data } = useUserPlanner();
 
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
 
-  const longLat = [location.longitude, location.latitude];
-
-  const routeCoords =
-    data &&
-    data[0].items.map((item) => {
-      return [item.marker.longitude, item.marker.latitude];
-    });
+  console.log({ route });
 
   return (
     <>
       <View style={{ height: "100%" }}>
         <InteractiveMap
-          coords={longLat}
+          coords={[location.longitude, location.latitude]}
           distance={1000}
-          routeCoords={routeCoords}
+          routeComponent={<MapLayerPlanner enable={route === "show"} />}
         />
       </View>
       <AddNewMarkerButton href="/explore/add-spot">
