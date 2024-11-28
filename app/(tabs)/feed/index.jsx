@@ -33,7 +33,7 @@ export default function Tab() {
         </Text>
       </View>
       <View className="px-4 space-y-6">
-        <Card title="Check Out the Latest Markers!">
+        <Card title="Check Out The Latest Spots!">
           <FlatList
             data={latestMarkers}
             scrollEnabled={false}
