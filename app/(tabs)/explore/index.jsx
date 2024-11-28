@@ -23,13 +23,11 @@ export default function Explore() {
 
   return (
     <>
-      <View>
-        <MultiDropDown
-          onSelectItems={(value) => {
-            setSelectedItems(value);
-          }}
-        />
-      </View>
+      <MultiDropDown
+        onSelectItems={(value) => {
+          setSelectedItems(value);
+        }}
+      />
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
