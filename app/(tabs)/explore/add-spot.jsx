@@ -9,6 +9,7 @@ import { useRouter } from "expo-router";
 export default function AddSpot() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const [coordinates, setCoordinates] = useState([]);
 
   const [toggleMap, setToggleMap] = useState(false);
@@ -26,7 +27,7 @@ export default function AddSpot() {
   }, [data]);
 
   function handleSubmit() {
-    mutate({ title, description, coordinates });
+    mutate({ title, description, coordinates, image });
   }
 
   return (
@@ -58,6 +59,16 @@ export default function AddSpot() {
           className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg p-3 w-full focus:ring-blue-500 focus:border-blue-500"
           placeholder=""
           onChangeText={setDescription}
+        />
+      </View>
+      <View className="w-full mb-6">
+        <Text className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+          Image URL:
+        </Text>
+        <TextInput
+          className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg p-3 w-full focus:ring-blue-500 focus:border-blue-500"
+          placeholder=""
+          onChangeText={setImage}
         />
       </View>
       <TouchableOpacity

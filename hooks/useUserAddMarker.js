@@ -8,7 +8,7 @@ export default function useUserAddMarker() {
 
   return useMutation({
     mutationKey: ["add-marker"],
-    mutationFn: ({ title, description, coordinates }) => {
+    mutationFn: ({ title, description, coordinates, image }) => {
       return supabase
         .from("markers")
         .insert({
@@ -16,6 +16,7 @@ export default function useUserAddMarker() {
           description,
           longitude: coordinates[0],
           latitude: coordinates[1],
+          image,
           user_id: userId,
         })
         .select()
