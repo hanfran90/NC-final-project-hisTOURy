@@ -138,7 +138,7 @@ export default function MapLayerPlanner({ enable, userCoords }) {
     <>
       <Images
         images={{
-          green_triangle: require("../assets/maki--triangle32.png"),
+          green_triangle: require("../assets/indigo-triangle.png"),
           red_marker: require("../assets/image.png"),
         }}
       />
@@ -185,7 +185,7 @@ export default function MapLayerPlanner({ enable, userCoords }) {
         <LineLayer
           id="route-layer"
           style={{
-            lineColor: "#03AA46",
+            lineColor: "#312e81",
             lineWidth: 5,
             lineOpacity: 0.8,
           }}
