@@ -8,11 +8,12 @@ import { useState } from "react";
 export default function MultiDropDown({ onSelectItems }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const { data, isPending, error } = useCategories();
-  if (isPending) return null;
 
   useEffect(() => {
     onSelectItems(selectedItems);
   }, [selectedItems]);
+
+  if (isPending) return null;
 
   return (
     <View style={styles.container}>

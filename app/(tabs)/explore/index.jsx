@@ -17,8 +17,6 @@ export default function Explore() {
   const { user } = useContext(AuthContext);
   const [selectedItems, setSelectedItems] = useState([]);
 
-  console.log({ selectedItems });
-
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
