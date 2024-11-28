@@ -17,6 +17,8 @@ export default function Explore() {
   const { user } = useContext(AuthContext);
   const [selectedItems, setSelectedItems] = useState([]);
 
+  console.log({ selectedItems });
+
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
@@ -33,7 +35,7 @@ export default function Explore() {
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
-          distance={3000}
+          distance={1000000}
           routeComponent={
             route === "show" && (
               <MapLayerPlanner
