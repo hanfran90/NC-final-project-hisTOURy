@@ -23,13 +23,11 @@ export default function Explore() {
 
   return (
     <>
-      <View>
-        <MultiDropDown
-          onSelectItems={(value) => {
-            setSelectedItems(value);
-          }}
-        />
-      </View>
+      <MultiDropDown
+        onSelectItems={(value) => {
+          setSelectedItems(value);
+        }}
+      />
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
@@ -47,7 +45,7 @@ export default function Explore() {
         />
       </View>
       <AddNewMarkerButton href="/explore/add-spot" />
-      {user && route && <NavigateTo />}
+      {user && route && <NavigateTo isInNavMode={navigate === "true"} />}
     </>
   );
 }

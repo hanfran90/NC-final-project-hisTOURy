@@ -7,7 +7,7 @@ import Mapbox, {
   SymbolLayer,
   Images,
 } from "@rnmapbox/maps";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import {
   Button,
@@ -18,6 +18,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
+import { FontAwesome6 } from "@expo/vector-icons";
+import CustomButton from "./CustomButton";
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
+    width: "90%",
   },
   customCalloutText: {
     color: "black",
@@ -66,6 +69,8 @@ export default function InteractiveMap({
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
   const [focusedCoords, setFocusedCoord] = useState(coords);
+
+  const router = useRouter();
 
   if (isPending) return <Text>Pending...</Text>;
 
@@ -128,21 +133,22 @@ export default function InteractiveMap({
 
   function MarkerPopUp({ item: { title, marker_id, image } }) {
     return (
-      <View style={styles.calloutContainerStyle}>
-        <Button
+      <View style={styles.calloutContainerStyle} className="relative">
+        <Text className="font-bold text-xl mb-2">{title}</Text>
+        <TouchableOpacity
+          className="absolute top-2 end-2"
           onPress={() => {
             closePopUp();
           }}
-          title="x"
-        />
-        <Text style={styles.customCalloutText}>{title}</Text>
-        <Image source={{ uri: image }} className="m-4 h-20 rounded-xl" />
-        <Link
-          className="bg-blue-500 py-3 rounded-lg text-center "
-          href={`(tabs)/explore/${marker_id}`}
         >
-          take me here
-        </Link>
+          <FontAwesome6 size={26} name="xmark" color="#ef4444" />
+        </TouchableOpacity>
+        <Image source={{ uri: image }} className="h-48 rounded-xl" />
+        <CustomButton
+          title="Take me here"
+          color="primary"
+          onPress={() => router.push(`(tabs)/explore/${marker_id}`)}
+        />
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { Link } from "expo-router";
 import useUserMarkers from "../../../hooks/useUsersMarkers";
 
@@ -14,15 +14,25 @@ export default function MySpots() {
         renderItem={({ item }) => (
           <Link href={`/user-profile/${item.marker_id}`} asChild>
             <TouchableOpacity>
-              <View className="bg-white dark:bg-gray-700 rounded-lg shadow-sm p-4 mb-4">
-                <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {item.title}
-                </Text>
-                <Text className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-                  {item.description
-                    ? `${item.description.slice(0, 50)}...`
-                    : "No description provided."}
-                </Text>
+              <View className="flex-row bg-white dark:bg-gray-700 rounded-lg p-4 mb-4 shadow-sm items-center">
+                <Image
+                  source={{ uri: item.image }}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 8,
+                    marginRight: 12,
+                    backgroundColor: "#e2e2e2",
+                  }}
+                />
+                <View className="flex-1">
+                  <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                    {item.title}
+                  </Text>
+                  <Text className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Address: {item.address}
+                  </Text>
+                </View>
               </View>
             </TouchableOpacity>
           </Link>

@@ -2,9 +2,8 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { Screen } from "expo-router/build/views/Screen";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../components/Auth/AuthContext";
-import { blue } from "react-native-reanimated/lib/typescript/Colors";
 
 export default function _layout() {
   const { user } = useContext(AuthContext);
@@ -16,16 +15,16 @@ export default function _layout() {
         tabBarInactiveTintColor: "black",
         tabBarInactiveBackgroundColor: "seagreen",
         tabBarStyle: {
-          height: 90,
+          // height: 60,
           borderWidth: 2,
           borderRadius: 1,
           borderColor: "seagreen",
           borderTopColor: "seagreen",
           backgroundColor: "seagreen",
+          paddingTop: 4,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "bold",
+          display: "none",
         },
       }}
     >
@@ -60,7 +59,7 @@ export default function _layout() {
         <Screen
           name="user-profile"
           options={{
-            title: "User",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name={"user"} color={color} />
             ),
@@ -80,36 +79,4 @@ export default function _layout() {
       )}
     </Tabs>
   );
-}
-
-{
-  /* <Tabs
-  screenOptions={{
-    tabBarActiveTintColor: Colors.orange.default,
-    tabBarStyle: {
-      height: 70,
-      borderWidth: 1,
-      borderRadius: 50,
-      borderColor: Colors.orange.default,
-      borderTopColor: Colors.orange.default,
-      backgroundColor: Colors.white.default,
-    },
-    tabBarLabelStyle: {
-      fontSize: 12,
-      fontWeight: "bold",
-      marginBottom: 10,
-    },
-  }}
->
-  <Tabs.Screen
-    name="(HomeNav)"
-    options={{
-      title: "Home",
-      headerShown: false,
-      tabBarIcon: ({ color, size }) => (
-        <Ionicons name="ios-home" size={size} color={color} />
-      ),
-    }}
-  />
-</Tabs>; */
 }

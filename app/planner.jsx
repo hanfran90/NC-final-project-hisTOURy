@@ -1,6 +1,7 @@
+import { FontAwesome6 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import CustomButton from "../components/CustomButton";
 import useDeleteAllPlanner from "../hooks/useDeleteAllPlanner";
 import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
@@ -24,7 +25,16 @@ export default function planner() {
     }
   }, [data]);
 
-  if (isPending || error || !data) return null;
+  if (isPending || error || !data)
+    return (
+      <View className="p-4 h-full flex flex-col items-center justify-center">
+        <CustomButton
+          title="Login to Add to Planner"
+          color="primary"
+          onPress={() => router.replace("/login")}
+        />
+      </View>
+    );
 
   const swapItems = (index1, index2) => {
     if (
@@ -45,77 +55,65 @@ export default function planner() {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 px-4 py-6 bg-gray-100 dark:bg-gray-800">
       <FlatList
         data={plannerData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <View
-            className="flex flex-row justify-center place-content-between items-center"
-            style={styles.item}
-          >
-            <Button onPress={() => mutate(item.marker.marker_id)} title="X" />
+          <View className="flex-row bg-white dark:bg-gray-700 rounded-lg p-4 mb-4 shadow-sm items-center">
+            <TouchableOpacity
+              className="pe-2"
+              onPress={() => mutate(item.marker.marker_id)}
+            >
+              <FontAwesome6 size={26} name="xmark" color="#ef4444" />
+            </TouchableOpacity>
             <Text>{item.marker.title}</Text>
             <View
-              className="flex flex-col"
+              className="flex flex-row"
               style={{
                 marginLeft: "auto",
               }}
             >
-              <Button
+              <TouchableOpacity
+                className="pe-2 me-2"
                 onPress={() => {
                   swapItems(index, index - 1);
                 }}
-                title="↑"
-              />
-              <Button
+              >
+                <FontAwesome6 size={20} name="arrow-up" color="seagreen" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="pe-2"
                 onPress={() => {
                   swapItems(index, index + 1);
                 }}
-                title="↓"
-              />
+              >
+                <FontAwesome6 size={20} name="arrow-down" color="seagreen" />
+              </TouchableOpacity>
             </View>
           </View>
         )}
       />
-      <CustomButton
-        color="tertiary"
-        onPress={deleteAll}
-        title="Empty my planner"
-      />
-      <CustomButton
-        color="primary"
-        onPress={() => {
-          plannerUpdate(plannerData);
-        }}
-        title="Save my route"
-      />
-      <CustomButton
-        disabled={routeModified}
-        color="secondary"
-        onPress={() => router.push("/explore?route=show")}
-        title="View my route"
-      />
+      <View>
+        <CustomButton
+          color="primary"
+          onPress={() => {
+            plannerUpdate(plannerData);
+          }}
+          title="Save order"
+        />
+        <CustomButton
+          disabled={routeModified}
+          color="secondary"
+          onPress={() => router.push("/explore?route=show")}
+          title="View route"
+        />
+        <CustomButton
+          color="tertiary"
+          onPress={deleteAll}
+          title="Empty planner"
+        />
+      </View>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "top",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-  item: {
-    padding: 20,
-    marginBottom: 10,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  text: {
-    fontSize: 16,
-  },
-});

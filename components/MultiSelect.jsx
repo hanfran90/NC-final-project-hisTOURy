@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { MaterialIcons } from "@expo/vector-icons";
 import useCategories from "../hooks/useCategories";
-import { useState } from "react";
 
 export default function MultiDropDown({ onSelectItems }) {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -17,23 +16,38 @@ export default function MultiDropDown({ onSelectItems }) {
 
   return (
     <View style={styles.container}>
-      <View>
-        <SectionedMultiSelect
-          modalWithSafeAreaView={true}
-          items={data}
-          IconRenderer={MaterialIcons}
-          uniqueKey="category_id"
-          subKey="items"
-          onSelectedItemsChange={setSelectedItems}
-          selectedItems={selectedItems}
-          selectText="Search by Type and Era"
-          searchPlaceholderText="Type or Era"
-          modalAnimationType="slide"
-          colors={{ primary: "#c98422" }}
-          readOnlyHeadings={true}
-          showCancelButton={true}
-        />
-      </View>
+      <SectionedMultiSelect
+        modalWithSafeAreaView={true}
+        items={data}
+        IconRenderer={MaterialIcons}
+        uniqueKey="category_id"
+        subKey="items"
+        onSelectedItemsChange={setSelectedItems}
+        selectedItems={selectedItems}
+        selectText="Search by Type and Era"
+        searchPlaceholderText="Type or Era"
+        modalAnimationType="slide"
+        colors={{ primary: "seagreen", cancel: "black" }}
+        readOnlyHeadings={true}
+        showCancelButton={true}
+        styles={{
+          searchBar: {
+            fontWeight: "bold",
+          },
+          chipsWrapper: {
+            paddingBottom: 10,
+          },
+          chipText: {
+            color: "black",
+          },
+          chipContainer: {
+            borderColor: "seagreen",
+          },
+          chipIcon: {
+            color: "seagreen",
+          },
+        }}
+      />
     </View>
   );
 }
@@ -41,6 +55,6 @@ export default function MultiDropDown({ onSelectItems }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
 });
