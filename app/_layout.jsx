@@ -37,12 +37,14 @@ function _layout() {
           <Screen
             name="login"
             options={{
+              title: "Login",
               presentation: "modal",
             }}
           />
           <Screen
             name="planner"
             options={{
+              title: "Planner",
               presentation: "modal",
             }}
           />

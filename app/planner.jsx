@@ -24,7 +24,16 @@ export default function planner() {
     }
   }, [data]);
 
-  if (isPending || error || !data) return null;
+  if (isPending || error || !data)
+    return (
+      <View className="p-4 h-full flex flex-col items-center justify-center">
+        <CustomButton
+          title="Login to Add to Planner"
+          color="primary"
+          onPress={() => router.replace("/login")}
+        />
+      </View>
+    );
 
   const swapItems = (index1, index2) => {
     if (
