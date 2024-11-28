@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import useUserAddMarker from "../../../hooks/useUserAddMarker";
 import CustomInput from "../../../components/CustomInput";
 import InteractiveMap from "../../../components/InteractiveMap";
@@ -25,11 +25,31 @@ export default function AddSpot() {
       <Text className="text-base text-gray-700 dark:text-gray-300 mb-4 text-center">
         Provide details and select a location on the map
       </Text>
-      <View className="w-full mb-4">
+      {/* <View className="w-full mb-4">
         <CustomInput onChange={setTitle} label="Title:" />
       </View>
       <View className="w-full mb-6">
         <CustomInput onChange={setDescription} label="Description:" />
+      </View> */}
+      <View className="w-full mb-4">
+        <Text className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+          Title:
+        </Text>
+        <TextInput
+          className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg p-3 w-full focus:ring-blue-500 focus:border-blue-500"
+          placeholder=""
+          onChangeText={setTitle}
+        />
+      </View>
+      <View className="w-full mb-6">
+        <Text className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+          Description:
+        </Text>
+        <TextInput
+          className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg p-3 w-full focus:ring-blue-500 focus:border-blue-500"
+          placeholder=""
+          onChangeText={setDescription}
+        />
       </View>
       <TouchableOpacity
         className={`${
