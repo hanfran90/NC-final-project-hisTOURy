@@ -23,7 +23,7 @@ function _layout() {
               headerTitle: "hisTOURy",
               headerStyle: { backgroundColor: "seagreen" },
               headerTintColor: "white",
-              headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
+              headerRight: () => <Link href={"/planner"}>Planner</Link>,
             }}
           />
           <Screen
