@@ -9,17 +9,18 @@ export default function _layout() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false,  }}  >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
+          title: "",
           href: null,
         }}
       />
       <Screen
         name="feed"
         options={{
+          headerShown: false,
           title: "Feed",
           tabBarIcon: ({ color }) => (
             <FontAwesome6 size={28} name={"bars-staggered"} color={color} />
@@ -29,6 +30,7 @@ export default function _layout() {
       <Screen
         name="explore"
         options={{
+          headerShown: false,
           title: "Explore",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name={"map"} color={color} />
