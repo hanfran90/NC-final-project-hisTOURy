@@ -66,8 +66,22 @@ export default function InteractiveMap({
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
   const [focusedCoords, setFocusedCoord] = useState(coords);
+	const [regionChanged, setRegionChanged] = useState(false)
 
   const mapRef = useRef(null);
+
+	const handleRegionChange = async () => {
+    try {
+      if (mapRef.current) {
+        const center = await mapRef.current.getCenter(); // Get the center coordinate
+        console.log(center);
+      }
+    } catch (error) {
+      console.error('Error getting center coordinate:', error);
+    }
+  };
+
+
 
   if (isPending) return <Text>Pending...</Text>;
 
@@ -177,17 +191,18 @@ export default function InteractiveMap({
 
   return (
     <>
-      {JSON.stringify(coords) !== JSON.stringify(focusedCoords) && (
+      {regionChanged && (
         <Button
           title="Reset Focus"
           onPress={() => {
             setFocusedCoord(coords);
             setSelectedFeature(null);
+						setRegionChanged(false)
           }}
         />
       )}
       <View style={styles.container}>
-        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
+        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef} onRegionDidChange={() => setRegionChanged(true)}>
           {route !== "show" && (
             <Camera zoomLevel={15} centerCoordinate={focusedCoords} />
           )}
