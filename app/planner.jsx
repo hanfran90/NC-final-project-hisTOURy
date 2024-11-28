@@ -14,12 +14,13 @@ export default function planner() {
   const { mutate: deleteAll } = useDeleteAllPlanner();
   const { mutate: plannerUpdate, error: plannerUpdateError } =
     useUserPlannerUpdate();
-  const [routeSaved, setRouteSaved] = useState(false);
+  const [routeModified, setRouteModified] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (data && data[0]?.items) {
       setPlannerData(data[0].items);
+      setRouteModified(false);
     }
   }, [data]);
 
@@ -33,11 +34,14 @@ export default function planner() {
       index2 >= plannerData.length
     )
       return;
+
     setPlannerData((prevList) => {
       const newList = [...prevList];
       [newList[index1], newList[index2]] = [newList[index2], newList[index1]];
       return newList;
     });
+
+    setRouteModified(true);
   };
 
   return (
@@ -82,16 +86,15 @@ export default function planner() {
       <CustomButton
         color="primary"
         onPress={() => {
-          setRouteSaved(true);
           plannerUpdate(plannerData);
         }}
         title="Save my route"
       />
       <CustomButton
-        disabled={!routeSaved}
+        disabled={routeModified}
         color="secondary"
         onPress={() => router.push("/explore?route=show")}
-        title="view my route"
+        title="View my route"
       />
     </View>
   );
@@ -116,18 +119,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-{
-  /* {plannerData.map((item) => {
-				return (
-          <View key={item.marker.marker_id} style={styles.item}>
-					<Text style={styles.text}>
-						{item.marker.title}
-					</Text>
-          <Button onPress={() => {swapItems(0,1)}} title="↑"/>
-          <Button title="↓"/>
-          </View>
-				);
-       
-			})} */
-}
