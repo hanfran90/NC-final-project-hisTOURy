@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -8,6 +8,11 @@ import { useState } from "react";
 export default function MultiDropDown({ onSelectItems }) {
   const [selectedItems, setSelectedItems] = useState([]);
   const { data, isPending, error } = useCategories();
+
+  useEffect(() => {
+    onSelectItems(selectedItems);
+  }, [selectedItems]);
+
   if (isPending) return null;
 
   return (
@@ -27,10 +32,6 @@ export default function MultiDropDown({ onSelectItems }) {
           colors={{ primary: "#c98422" }}
           readOnlyHeadings={true}
           showCancelButton={true}
-          onConfirm={() => {
-            onSelectItems(selectedItems);
-          }}
-          //onCancel={}
         />
       </View>
     </View>
