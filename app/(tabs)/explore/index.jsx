@@ -33,7 +33,6 @@ export default function Explore() {
       <View style={{ height: "100%" }}>
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
-          distance={1000000}
           routeComponent={
             route === "show" && (
               <MapLayerPlanner

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 export default function InteractiveMap({
   coords,
-  distance,
+  distance = 1000000,
   onSelectPlace = () => null,
   isInSelectMode = false,
   routeComponent,

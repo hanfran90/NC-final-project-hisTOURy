@@ -19,9 +19,7 @@ export default function useUserAddMarker() {
           user_id: userId,
         })
         .select()
-        .then((response) => {
-          return response.data[0];
-        });
+        .then((response) => response.data[0]);
     },
     enable: Boolean(userId),
   });

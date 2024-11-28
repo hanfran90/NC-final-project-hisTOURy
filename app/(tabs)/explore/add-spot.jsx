@@ -4,6 +4,7 @@ import useUserAddMarker from "../../../hooks/useUserAddMarker";
 import CustomInput from "../../../components/CustomInput";
 import InteractiveMap from "../../../components/InteractiveMap";
 import CustomButton from "../../../components/CustomButton";
+import { useRouter } from "expo-router";
 
 export default function AddSpot() {
   const [title, setTitle] = useState("");
@@ -12,9 +13,17 @@ export default function AddSpot() {
 
   const [toggleMap, setToggleMap] = useState(false);
 
+  const router = useRouter();
+
   const { data, isPending, error, mutate } = useUserAddMarker();
 
-  useEffect(() => {}, [data, isPending, error]);
+  useEffect(() => {
+    const markerId = data?.marker_id;
+
+    if (error || isPending || !markerId) return;
+
+    router.replace("/explore/" + markerId);
+  }, [data]);
 
   function handleSubmit() {
     mutate({ title, description, coordinates });
@@ -45,7 +54,6 @@ export default function AddSpot() {
         <View className="h-64 w-full mb-4 border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
           <InteractiveMap
             coords={[-2.243056, 53.477778]}
-            distance={1000}
             onSelectPlace={setCoordinates}
             isInSelectMode
           />
