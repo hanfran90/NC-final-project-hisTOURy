@@ -59,7 +59,7 @@ export default function _layout() {
         <Screen
           name="user-profile"
           options={{
-            title: "User",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name={"user"} color={color} />
             ),
