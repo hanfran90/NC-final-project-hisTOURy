@@ -29,7 +29,7 @@ export default function Tab() {
           }}
         />
         <Text className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
-          Today is graduation day!
+          Today is Graduation Day!
         </Text>
       </View>
       <View className="px-4 space-y-6">
