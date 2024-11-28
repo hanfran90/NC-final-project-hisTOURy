@@ -9,7 +9,14 @@ import Mapbox, {
 } from "@rnmapbox/maps";
 import { Link } from "expo-router";
 import { useRef, useState } from "react";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
@@ -58,6 +65,8 @@ export default function InteractiveMap({
   });
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
+  const [focusedCoords, setFocusedCoord] = useState(coords);
+
   const mapRef = useRef(null);
 
   if (isPending) return <Text>Pending...</Text>;
@@ -96,11 +105,16 @@ export default function InteractiveMap({
 
   function onPinPress(event) {
     const feature = event?.features[0];
-    setSelectedFeature((prevSelectedFeature) =>
-      prevSelectedFeature && prevSelectedFeature.id === feature.id
-        ? null
-        : feature
-    );
+
+    setSelectedFeature((prevSelectedFeature) => {
+      if (prevSelectedFeature && prevSelectedFeature.id === feature.id) {
+        setFocusedCoord(null);
+        return null;
+      }
+
+      setFocusedCoord(feature.geometry.coordinates);
+      return feature;
+    });
   }
 
   function handleLongPress(event) {
@@ -137,6 +151,7 @@ export default function InteractiveMap({
 
   function closePopUp() {
     setSelectedFeature(null);
+    setFocusedCoord(null);
   }
 
   function MarkerPopUp({ item: { title, marker_id, image } }) {
@@ -161,48 +176,56 @@ export default function InteractiveMap({
   }
 
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
-        {selectedFeature ? (
-          <Camera
-            zoomLevel={15}
-            centerCoordinate={selectedFeature.geometry.coordinates}
-          />
-        ) : (
-          route !== "show" && (
-            <Camera zoomLevel={15} centerCoordinate={coords} />
-          )
-        )}
-        <LocationPuck puckBearing="heading" puckBearingEnabled />
-        <Images
-          images={{
-            green_marker: require("../assets/green-marker.png"),
+    <>
+      {JSON.stringify(coords) !== JSON.stringify(focusedCoords) && (
+        <Button
+          title="Reset Focus"
+          onPress={() => {
+            setFocusedCoord(coords);
+            setSelectedFeature(null);
           }}
         />
-        {/* location markers */}
-        {!isInSelectMode && route !== "show" && (
-          <ShapeSource id="points" shape={geojson} onPress={onPinPress}>
-            <SymbolLayer id="point-layer" source="points" style={styles.icon} />
-          </ShapeSource>
-        )}
-        {/*long press icon */}
-        {geojsonLongPress && (
-          <ShapeSource id="selectedCoords" shape={geojsonLongPress}>
-            <SymbolLayer
-              id="selected-layer"
-              source="selectedCoords"
-              style={styles.iconSelected}
-            />
-          </ShapeSource>
-        )}
-        {/*selected feature pop up */}
-        {selectedFeature && (
-          <MarkerView coordinate={selectedFeature.geometry.coordinates}>
-            <MarkerPopUp item={selectedFeature?.properties} />
-          </MarkerView>
-        )}
-        {route && routeComponent}
-      </MapView>
-    </View>
+      )}
+      <View style={styles.container}>
+        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
+          {route !== "show" && (
+            <Camera zoomLevel={15} centerCoordinate={focusedCoords} />
+          )}
+          <LocationPuck puckBearing="heading" puckBearingEnabled />
+          <Images
+            images={{
+              green_marker: require("../assets/green-marker.png"),
+            }}
+          />
+          {/* location markers */}
+          {!isInSelectMode && route !== "show" && (
+            <ShapeSource id="points" shape={geojson} onPress={onPinPress}>
+              <SymbolLayer
+                id="point-layer"
+                source="points"
+                style={styles.icon}
+              />
+            </ShapeSource>
+          )}
+          {/*long press icon */}
+          {geojsonLongPress && (
+            <ShapeSource id="selectedCoords" shape={geojsonLongPress}>
+              <SymbolLayer
+                id="selected-layer"
+                source="selectedCoords"
+                style={styles.iconSelected}
+              />
+            </ShapeSource>
+          )}
+          {/*selected feature pop up */}
+          {selectedFeature && (
+            <MarkerView coordinate={selectedFeature.geometry.coordinates}>
+              <MarkerPopUp item={selectedFeature?.properties} />
+            </MarkerView>
+          )}
+          {route && routeComponent}
+        </MapView>
+      </View>
+    </>
   );
 }
