@@ -13,9 +13,10 @@ export default function _layout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "white",
-        tabBarInactiveBackgroundColor: "white",
+        tabBarInactiveTintColor: "black",
+        tabBarInactiveBackgroundColor: "seagreen",
         tabBarStyle: {
-          height: 60,
+          height: 90,
           borderWidth: 2,
           borderRadius: 1,
           borderColor: "seagreen",
@@ -25,7 +26,6 @@ export default function _layout() {
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "bold",
-          marginBottom: 10,
         },
       }}
     >
