@@ -201,6 +201,8 @@ BEGIN
                 (m.mark_id, m.title, m.address, m.description, m.long, m.lat, m.image, (CASE WHEN RANDOM() < 0.3 THEN NULL ELSE (SELECT user_id FROM profiles ORDER BY RANDOM() LIMIT 1) END))
             ;
     END LOOP;
+
+    PERFORM setval('markers_marker_id_seq', (SELECT MAX(marker_id) FROM public.markers));
 END $$;
 
 DROP TYPE temp_marker_type;
