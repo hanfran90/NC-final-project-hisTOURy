@@ -47,7 +47,7 @@ export default function Explore() {
         />
       </View>
       <AddNewMarkerButton href="/explore/add-spot" />
-      {user && route && <NavigateTo />}
+      {user && route && <NavigateTo isInNavMode={navigate === "true"} />}
     </>
   );
 }

@@ -18,8 +18,9 @@ export default function AddNewMarkerButton({ href = null, onPress }) {
   if (!user) return null;
   return (
     <TouchableOpacity
-      className="absolute size-[48] bg-slate-500 rounded-full flex justify-center items-center m-4 bottom-0 right-0"
+      className="absolute size-[48] rounded-full flex justify-center items-center m-4 bottom-0 right-0"
       onPress={handlePress}
+      style={{ backgroundColor: "black" }}
     >
       <Text className="text-center text-2xl font-bold text-white">+</Text>
     </TouchableOpacity>
