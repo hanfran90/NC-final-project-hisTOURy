@@ -1,14 +1,18 @@
 import { Link } from "expo-router";
 import React from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+
 import useAllMarkers from "../../../hooks/useAllMarkers";
 
 export default function NewSpots() {
+
   const { data: markers } = useAllMarkers();
 
   const latestMarkers = markers
     .sort((a, b) => b.marker_id - a.marker_id)
     .slice(0, 5);
+
 
   return (
     <View className="flex-1 px-4 py-6 bg-gray-100 dark:bg-gray-800">
