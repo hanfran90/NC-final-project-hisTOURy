@@ -5,12 +5,13 @@ import { Screen } from "expo-router/build/views/Screen";
 import React from "react";
 import "../global.css";
 import AuthProvider from "../components/Auth/AuthProvider";
+import { BackgroundLayerStyle } from "@rnmapbox/maps";
+import { colorScheme } from "nativewind";
 
 const queryClient = new QueryClient();
 
 function _layout() {
   useReactQueryDevTools(queryClient);
-  
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -19,8 +20,9 @@ function _layout() {
           <Screen
             name="(tabs)"
             options={{
-              headerTitle: "Columbus",
-              headerLeft: () => <Link href={"/dev"}>DEV</Link>,
+              headerTitle: "hisTOURy",
+              headerStyle: { backgroundColor: "seagreen" },
+              headerTintColor: "white",
               headerRight: () => <Link href={"/planner"}>PLANNER</Link>,
             }}
           />
