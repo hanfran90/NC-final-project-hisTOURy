@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native";
+import { Image, Text, View } from "react-native";
 
 export default function SingleMarkerCard({ markerData }) {
   return (
@@ -8,7 +8,7 @@ export default function SingleMarkerCard({ markerData }) {
           <Text>{markerData.photo}</Text>
           <Image
             source={{
-              uri: "https://www.dfc.co.uk/wp-content/uploads/2018/09/MTC-Oxford-House_taken-by-NS_0869.png",
+              url: markerData.image,
             }}
             className="m-4 h-40 rounded-xl"
           />

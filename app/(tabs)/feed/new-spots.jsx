@@ -1,13 +1,18 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
-import useAllMarkers from "../../../hooks/useAllMarkers";
 import { Link } from "expo-router";
+import React from "react";
+
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+
+import useAllMarkers from "../../../hooks/useAllMarkers";
 
 export default function NewSpots() {
-  const { data: markers} = useAllMarkers();
 
-  const latestMarkers =
-    markers?.sort((a, b) => b.marker_id - a.marker_id).slice(0, 5) || [];
+  const { data: markers } = useAllMarkers();
+
+  const latestMarkers = markers
+    .sort((a, b) => b.marker_id - a.marker_id)
+    .slice(0, 5);
+
 
   return (
     <View className="flex-1 px-4 py-6 bg-gray-100 dark:bg-gray-800">
