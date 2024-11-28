@@ -30,7 +30,6 @@ function _layout() {
                   onPress={() => router.push("/planner")}
                 >
                   <FontAwesome6 size={24} name="route" />
-                  {/* <Text className="font-bold">Planner</Text> */}
                 </TouchableOpacity>
               ),
             }}

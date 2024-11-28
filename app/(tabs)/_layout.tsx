@@ -21,10 +21,10 @@ export default function _layout() {
           borderColor: "seagreen",
           borderTopColor: "seagreen",
           backgroundColor: "seagreen",
+          paddingTop: 4,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "bold",
+          display: "none",
         },
       }}
     >
@@ -79,36 +79,4 @@ export default function _layout() {
       )}
     </Tabs>
   );
-}
-
-{
-  /* <Tabs
-  screenOptions={{
-    tabBarActiveTintColor: Colors.orange.default,
-    tabBarStyle: {
-      height: 70,
-      borderWidth: 1,
-      borderRadius: 50,
-      borderColor: Colors.orange.default,
-      borderTopColor: Colors.orange.default,
-      backgroundColor: Colors.white.default,
-    },
-    tabBarLabelStyle: {
-      fontSize: 12,
-      fontWeight: "bold",
-      marginBottom: 10,
-    },
-  }}
->
-  <Tabs.Screen
-    name="(HomeNav)"
-    options={{
-      title: "Home",
-      headerShown: false,
-      tabBarIcon: ({ color, size }) => (
-        <Ionicons name="ios-home" size={size} color={color} />
-      ),
-    }}
-  />
-</Tabs>; */
 }
