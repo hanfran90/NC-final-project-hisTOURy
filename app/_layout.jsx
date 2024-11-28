@@ -11,7 +11,7 @@ import "../global.css";
 const queryClient = new QueryClient();
 
 function _layout() {
-  useReactQueryDevTools(queryClient);
+  // useReactQueryDevTools(queryClient);
   const router = useRouter();
 
   return (
