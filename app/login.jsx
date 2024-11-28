@@ -24,7 +24,7 @@ export default function Login() {
         Welcome Back!
       </Text>
       <Text className="text-base text-gray-700 dark:text-gray-300 mb-8 text-center">
-        Sign in or create an account to continue.
+        Sign In or Create an Account to continue.
       </Text>
       <View className="w-full mb-4">
         <Text className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
@@ -64,7 +64,7 @@ export default function Login() {
           disabled={!form.email || !form.password}
         />
         <CustomButton
-          title="Sign Up"
+          title="Create an Account"
           onPress={() => signUp(form)}
           color="secondary"
           disabled={!form.email || !form.password}
