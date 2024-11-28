@@ -32,9 +32,6 @@ export default function MultiDropDown({ onSelectItems }) {
           colors={{ primary: "#c98422" }}
           readOnlyHeadings={true}
           showCancelButton={true}
-          // onConfirm={() => {
-          //   onSelectItems(selectedItems);
-          // }}
         />
       </View>
     </View>
