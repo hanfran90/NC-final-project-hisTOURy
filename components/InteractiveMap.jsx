@@ -69,6 +69,19 @@ export default function InteractiveMap({
 
   const mapRef = useRef(null);
 
+	const getCenterCoordinate = async () => {
+    try {
+      if (mapRef.current) {
+        const center = await mapRef.current.getCenter(); // Get the center coordinate
+        console.log(center);
+      }
+    } catch (error) {
+      console.error('Error getting center coordinate:', error);
+    }
+  };
+
+
+
   if (isPending) return <Text>Pending...</Text>;
 
   const geojson = {
@@ -187,7 +200,7 @@ export default function InteractiveMap({
         />
       )}
       <View style={styles.container}>
-        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
+        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef} onRegionDidChange={getCenterCoordinate}>
           {route !== "show" && (
             <Camera zoomLevel={15} centerCoordinate={focusedCoords} />
           )}
