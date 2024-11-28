@@ -66,22 +66,6 @@ export default function InteractiveMap({
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCoordinates, setSelectedCoordinates] = useState(null);
   const [focusedCoords, setFocusedCoord] = useState(coords);
-	const [regionChanged, setRegionChanged] = useState(false)
-
-  const mapRef = useRef(null);
-
-	const handleRegionChange = async () => {
-    try {
-      if (mapRef.current) {
-        const center = await mapRef.current.getCenter(); // Get the center coordinate
-        console.log(center);
-      }
-    } catch (error) {
-      console.error('Error getting center coordinate:', error);
-    }
-  };
-
-
 
   if (isPending) return <Text>Pending...</Text>;
 
@@ -137,32 +121,6 @@ export default function InteractiveMap({
     setSelectedCoordinates(event.geometry.coordinates);
   }
 
-  function addRouteToMap(map, routeGeoJSON) {
-    if (map.getSource("route")) {
-      map.getSource("route").setData(routeGeoJSON);
-    } else {
-      map.addSource("route", {
-        type: "geojson",
-        data: routeGeoJSON,
-      });
-
-      map.addLayer({
-        id: "route",
-        type: "line",
-        source: "route",
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "#03AA46",
-          "line-width": 5,
-          "line-opacity": 0.8,
-        },
-      });
-    }
-  }
-
   function closePopUp() {
     setSelectedFeature(null);
     setFocusedCoord(null);
@@ -191,18 +149,17 @@ export default function InteractiveMap({
 
   return (
     <>
-      {regionChanged && (
+      {JSON.stringify(coords) !== JSON.stringify(focusedCoords) && (
         <Button
           title="Reset Focus"
           onPress={() => {
             setFocusedCoord(coords);
             setSelectedFeature(null);
-						setRegionChanged(false)
           }}
         />
       )}
       <View style={styles.container}>
-        <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef} onRegionDidChange={() => setRegionChanged(true)}>
+        <MapView style={styles.map} onLongPress={handleLongPress}>
           {route !== "show" && (
             <Camera zoomLevel={15} centerCoordinate={focusedCoords} />
           )}
