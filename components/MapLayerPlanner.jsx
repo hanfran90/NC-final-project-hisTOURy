@@ -160,7 +160,7 @@ export default function MapLayerPlanner({ enable, userCoords }) {
           }}
           padding={{
             paddingTop: 50,
-            paddingBottom: 50,
+            paddingBottom: 100,
             paddingLeft: 50,
             paddingRight: 50,
           }}
