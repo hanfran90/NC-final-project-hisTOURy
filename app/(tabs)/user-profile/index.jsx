@@ -9,8 +9,8 @@ export default function Tab() {
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-50 dark:bg-gray-900 p-6 space-y-6">
-      <View className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-5">
-        <Text className="text-center text-xl font-bold text-gray-800 dark:text-gray-100">
+    <View>
+    <Text className="text-center text-xl font-bold text-gray-800 dark:text-gray-100">
           Welcome{" "}
           <Text className="text-gray-800">
             {user?.email.split("@")[0].charAt(0).toUpperCase() +
@@ -20,36 +20,64 @@ export default function Tab() {
         </Text>
       </View>
 
-      <View className="w-full">
+      {/* <View className="w-full">
         <View className="mt-4">
           <Link href="/user-profile/my-spots" asChild>
-            <TouchableOpacity className="bg-green-600 hover:bg-green-700 py-4 rounded-lg shadow-md">
+            <TouchableOpacity className="bg-green-400 hover:bg-green-700 py-2 rounded-lg shadow-sm">
               <Text className="text-center text-white font-medium text-lg">
                 My Markers
               </Text>
             </TouchableOpacity>
           </Link>
-        </View>
-
+        </View> */}
+             <View className="w-full">
         <View className="mt-4">
+          <Link href="/user-profile/my-spots" asChild>
+            <TouchableOpacity className="border border-gray-300 bg-gray-100 py-3 rounded-lg shadow-sm">
+              <Text className="text-center text-gray-800 dark:text-gray-100 font-medium text-lg">
+                 My Markers
+               </Text>
+             </TouchableOpacity>
+          </Link>
+         </View>
+
+        {/* <View className="mt-4">
           <Link href="/user-profile/my-votes" asChild>
-            <TouchableOpacity className="bg-blue-600 hover:bg-blue-700 py-4 rounded-lg shadow-md">
+            <TouchableOpacity className="bg-blue-400 hover:bg-blue-700 py-2 rounded-lg shadow-sm">
               <Text className="text-center text-white font-medium text-lg">
                 My Votes
               </Text>
             </TouchableOpacity>
           </Link>
-        </View>
+        </View> */}
+               <View className="mt-4">
+         <Link href="/user-profile/my-votes" asChild>
+         <TouchableOpacity className="border border-gray-300 bg-gray-100 py-3 rounded-lg shadow-sm">
+              <Text className="text-center text-gray-800 dark:text-gray-100 font-medium text-lg">
+                My Votes
+              </Text>
+            </TouchableOpacity>
+          </Link>
+       </View>
 
-        <View className="mt-4">
+        {/* <View className="mt-4">
           <CustomButton
             title="Logout"
             onPress={signOut}
             color="tertiary"
             style="bg-red-500 hover:bg-red-600 py-4 rounded-lg shadow-md"
           />
+        </View> */}
+           <View className="mt-4">
+        <CustomButton
+            title="Logout"
+           onPress={signOut}
+           color="tertiary"
+          />
         </View>
       </View>
     </View>
   );
 }
+
+
