@@ -9,10 +9,10 @@ HisTOURy is an app where users can build their own guided tour, exploring histor
 -Voting on markers
 -Users can add markers to their planner and view the route on the map
 
+<img width="358" alt="Screenshot 2024-12-04 at 10 35 07" src="https://github.com/user-attachments/assets/fb8ac5bd-0f03-406c-8c9b-ed6f0702de2d">
+<img width="356" alt="Screenshot 2024-12-04 at 10 35 14" src="https://github.com/user-attachments/assets/c33f07f4-caab-478e-ac6f-28e02fc1f587">
 <img width="355" alt="Screenshot 2024-12-04 at 10 35 24" src="https://github.com/user-attachments/assets/ad791081-b675-4d75-b57e-c32637144821">
 <img width="355" alt="Screenshot 2024-12-04 at 10 35 20" src="https://github.com/user-attachments/assets/b24048e8-8eb2-4a08-86cf-68301a1b8a1c">
-<img width="356" alt="Screenshot 2024-12-04 at 10 35 14" src="https://github.com/user-attachments/assets/c33f07f4-caab-478e-ac6f-28e02fc1f587">
-<img width="358" alt="Screenshot 2024-12-04 at 10 35 07" src="https://github.com/user-attachments/assets/fb8ac5bd-0f03-406c-8c9b-ed6f0702de2d">
 
 
 
