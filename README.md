@@ -3,11 +3,11 @@ hisTOURy
 Technologies: React Native, MapBox, Expo, Supabase (PostGIS extension)
 
 HisTOURy is an app where users can build their own guided tour, exploring historical locations in their local area. Functionality includes:
--Authentication to log in to their account
--Feed page with "on this day" and recently added markers
--Map with clickable markers, linking to marker pages with more information about the historical location
--Voting on markers
--Users can add markers to their planner and view the route on the map
+* Authentication to log in to their account
+* Feed page with "on this day" and recently added markers
+* Map with clickable markers, linking to marker pages with more information about the historical location
+* Voting on markers
+* Users can add markers to their planner and view the route on the map
 
 <img width="358" alt="Screenshot 2024-12-04 at 10 35 07" src="https://github.com/user-attachments/assets/fb8ac5bd-0f03-406c-8c9b-ed6f0702de2d">
 <img width="356" alt="Screenshot 2024-12-04 at 10 35 14" src="https://github.com/user-attachments/assets/c33f07f4-caab-478e-ac6f-28e02fc1f587">
