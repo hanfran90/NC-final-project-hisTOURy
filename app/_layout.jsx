@@ -30,15 +30,16 @@ function _layout() {
                   <FontAwesome6 size={24} name="route" />
                 </TouchableOpacity>
               ),
-              headerLeft: () => (
-                <TouchableOpacity
-                  className="flex justify-center items-center flex-column p-3"
-                  onPress={() => router.push("/dev")}
-                >
-                  <FontAwesome6 size={24} name="dev" />
-                </TouchableOpacity>
-              ),
             }}
+            //     headerLeft: () => (
+            //       <TouchableOpacity
+            //         className="flex justify-center items-center flex-column p-3"
+            //         onPress={() => router.push("/dev")}
+            //       >
+            //         <FontAwesome6 size={24} name="dev" />
+            //       </TouchableOpacity>
+            //     ),
+            //   }}
           />
 
           <Screen
