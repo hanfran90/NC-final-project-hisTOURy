@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../components/Auth/AuthContext";
 import { supabase } from "../utils/supabaseClient";
-import useUserVotes from "./useUserVotes";
+import useUserVotes from "./useUserVotesForSpecificMarker";
 
 export default function useUserVoteOnMarker(marker_id) {
   const queryClient = useQueryClient();
@@ -21,7 +21,7 @@ export default function useUserVoteOnMarker(marker_id) {
   const [vote, setVote] = useState(null);
 
   useEffect(() => {
-    setVote(queryData?.[0]?.value || 0);
+    setVote(queryData?.[0]?.value ?? 0);
   }, [queryData]);
 
   // REQUEST HELPER

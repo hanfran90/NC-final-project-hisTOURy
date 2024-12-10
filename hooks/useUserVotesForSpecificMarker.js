@@ -3,7 +3,7 @@ import { AuthContext } from "../components/Auth/AuthContext";
 import { supabase } from "../utils/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useUserVotes(marker_id) {
+export default function useUserVotesForMarker(marker_id) {
   const { userId } = useContext(AuthContext);
 
   return useQuery({
