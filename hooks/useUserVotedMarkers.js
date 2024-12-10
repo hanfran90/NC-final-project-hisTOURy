@@ -3,7 +3,7 @@ import { supabase } from "../utils/supabaseClient";
 import { AuthContext } from "../components/Auth/AuthContext";
 import { useContext } from "react";
 
-export default function useUserMarkerVotes() {
+export default function useUserVotedMarkers() {
   const { userId } = useContext(AuthContext);
   return useQuery({
     queryKey: ["user", "userVotes", userId],

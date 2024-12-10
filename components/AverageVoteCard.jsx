@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function VoteCard({ avgVote }) {
+export default function AverageVoteCard({ avgVote, userVoteCount }) {
   const stars = [1, 2, 3, 4, 5];
 
   const renderAverageStars = (currentRating) => {
@@ -19,8 +19,14 @@ export default function VoteCard({ avgVote }) {
   };
 
   return (
-    <View className="m-1 p-1 min-h-0 flex justify-center items-center rounded-lg bg-white">
-      <View style={styles.starsContainer}>{renderAverageStars(avgVote)}</View>
+    <View className="m-4 p-4 min-h-[100] flex justify-center content-center rounded-xl bg-white">
+      <Text className="text-center text-lg font-bold text-gray-800 pt-2">
+        Average Star Rating
+      </Text>
+      <View className="flex justify-center" style={styles.starsContainer}>
+        {renderAverageStars(avgVote)}
+        <Text className="text-sm text-center">({userVoteCount})</Text>
+      </View>
     </View>
   );
 }

@@ -4,7 +4,8 @@ import useMarkerInfo from "../hooks/useMarkerInfo";
 import useUserAddToPlanner from "../hooks/useUserAddToPlanner";
 import CustomButton from "./CustomButton";
 import SingleMarkerCard from "./SingleMarkerCard";
-import VoteCard from "./VoteCard";
+import UserVoteCard from "./UserVoteCard";
+import AverageVoteCard from "./AverageVoteCard";
 
 export default function SpotIdPage() {
   const { spotId } = useLocalSearchParams();
@@ -51,7 +52,8 @@ export default function SpotIdPage() {
           onPress={addToPlanner}
           disabled={!canAddToPlanner}
         />
-        <VoteCard
+        <UserVoteCard marker_id={spotId} />
+        <AverageVoteCard
           marker_id={spotId}
           avgVote={data.avg_vote}
           userVoteCount={data.user_vote_count}
